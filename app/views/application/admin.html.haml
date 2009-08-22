@@ -32,5 +32,9 @@
 - for contract in @contracts
   %ul
     %li
-      = contract.name
-      = link_to "<span class='ui-state-default ui-corner-all ui-icon ui-icon-pencil'/></span>", edit_contract_path(contract)
+      %span{:class => 'ui-state-default ui-corner-all ui-icon ui-icon-pencil'}
+      = link_to contract.name, edit_contract_path(contract)
+%ul
+  %li
+    %span{:class => 'ui-state-default ui-corner-all ui-icon ui-icon-plusthick'}
+    = link_to I18n.t(:contract_new), new_contract_path
