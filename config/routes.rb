@@ -1,18 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :entries
-
   map.resources :users
   map.resources :projects
   map.resources :contracts
-
-  map.resources :contracts
-
-  map.root :controller => 'entries'
 
   map.signup '/signup',  :controller => 'users', :action => 'new'
   
   map.login '/login', :controller => "user_sessions", :action => 'new'
   map.signup '/logout', :controller => 'user_sessions', :action => 'destroy'
+  
+  map.cost_by_contract '/cost_by_contract', :controller => "reports", :action => 'cost_by_contract'
+  map.cost_by_project  '/cost_by_project',  :controller => "reports", :action => 'cost_by_project'
+  map.cost_by_user     '/cost_by_user',     :controller => "reports", :action => 'cost_by_user'
+  
   map.resource :user_sessions
 
   # The priority is based upon order of creation: first created -> highest priority.

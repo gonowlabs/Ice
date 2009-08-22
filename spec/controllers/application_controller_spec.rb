@@ -25,5 +25,11 @@ describe ApplicationController do
       get :index
       response.should render_template('application/manager')
     end
+    
+    it "should render index if the user is not a manager nor an admin" do
+      login
+      get :index
+      response.should render_template('application/index')
+    end
   end
 end
