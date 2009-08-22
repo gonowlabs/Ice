@@ -27,6 +27,6 @@ module AuthlogicHelper
   end
   
   def require_admin
-    @current_user.admin?
+    current_user.admin?
   end
 end
