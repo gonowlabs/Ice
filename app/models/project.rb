@@ -16,7 +16,7 @@ class Project < ActiveRecord::Base
       end
       if (result.length < 7)
         result = (starting_date..ending_date).map do |date|
-          proxy_owner.entries.create(:user => user, :date => date, :hours => 0)
+          proxy_owner.entries.find_or_create_by_user_id_and_date(:user_id => user.to_param, :date => date, :hours => 0.0)
         end
       end
       result
