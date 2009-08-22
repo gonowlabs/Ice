@@ -11,14 +11,9 @@ class Project < ActiveRecord::Base
       all(:conditions => conditions, :order => :date)
     end
     def for_week_and_user(reference_date, user)
-      starting_date, ending_date = [reference_date.monday, reference_date.sunday]
-      result = between(starting_date, ending_date, user)
-      if (result.length < 7)
-        result = (starting_date..ending_date).map do |date|
-          proxy_owner.entries.find_or_create_by_user_id_and_date(:user_id => user.to_param, :date => date, :hours => 0.0)
-        end
+      (reference_date.monday..reference_date.sunday).map do |date|
+        proxy_owner.entries.find_or_create_by_user_id_and_date(:user_id => user.id, :date => date, :hours => 0.0)
       end
-      result
     end
   end
 end
