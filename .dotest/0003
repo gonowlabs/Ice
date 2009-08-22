@@ -1,0 +1,41 @@
+From c233a52744d817f66c3c5e91810530861db29035 Mon Sep 17 00:00:00 2001
+From: Diego Carrion <dc.rec1@gmail.com>
+Date: Sat, 22 Aug 2009 00:11:08 -0300
+Subject: an user knows if is an admin or not
+
+---
+ app/models/user.rb       |    4 ++++
+ spec/models/user_spec.rb |    4 ++++
+ 2 files changed, 8 insertions(+), 0 deletions(-)
+
+diff --git a/app/models/user.rb b/app/models/user.rb
+index 3e35f10eb77a006d3b798eb036ea56b7bb07e412..aacff53b65c1b56daf172f54a6c087ae8479fee9 100644
+--- a/app/models/user.rb
++++ b/app/models/user.rb
+@@ -3,4 +3,8 @@ class User < ActiveRecord::Base
+   
+   has_and_belongs_to_many :projects
+   acts_as_authentic
++  
++  def admin?
++    role.eql? ADMIN
++  end
+ end
+\ No newline at end of file
+diff --git a/spec/models/user_spec.rb b/spec/models/user_spec.rb
+index cbd75fc7b74fe584cd327f2843edf0fccd0bd70c..325be459a4f6219779c178bf4ad54720f25752db 100644
+--- a/spec/models/user_spec.rb
++++ b/spec/models/user_spec.rb
+@@ -7,4 +7,8 @@ describe User do
+   it "should identify an user as admin" do
+     User.new(:role => User::ADMIN).admin?.should be_true
+   end
++  
++  it "should identify an user isnt an admin" do
++    User.new.admin?.should be_false
++  end
+ end
+\ No newline at end of file
+-- 
+1.5.5.3
+
