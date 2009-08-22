@@ -1,2 +1,4 @@
 - for contract in @contracts
   = contract.name
+  = link_to 'edit', edit_contract_path(contract)
+  %br

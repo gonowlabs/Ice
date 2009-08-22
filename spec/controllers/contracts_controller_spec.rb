@@ -5,4 +5,5 @@ describe ContractsController do
     login
   end
   should_behave_like_resource
+  should_have_before_filter :require_admin
 end
