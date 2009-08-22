@@ -1,5 +1,4 @@
 def should_behave_like_resource(opts = {})
-
   before :each do
     @opts = opts
     controller.stub!(:require_owner)

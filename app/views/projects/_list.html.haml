@@ -1,0 +1,17 @@
+%table
+  %tr
+    %th Name
+    %th Start date
+    %th Finish date
+    %th
+    %th
+    %th
+  - contract.projects.each do |project|
+    %tr
+      %td= h project.name
+      %td= localized_date(project.start_date)
+      %td= localized_date(project.finish_date)
+      %td= link_to 'Show', contract_project_path(contract, project)
+      %td= link_to 'Edit', edit_contract_project_path(contract, project)
+      %td= link_to 'Destroy', contract_project_path(contract, project), :confirm => 'Are you sure?', :method => :delete
+

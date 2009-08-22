@@ -1,0 +1,6 @@
+%h1
+  Listing projects for #{I18n.t(:contract).downcase}
+  = link_to @contract.name, @contract
+= render :partial => 'list', :locals => {:contract => @contract}
+= link_to 'New project', new_contract_project_path(@contract)
+
