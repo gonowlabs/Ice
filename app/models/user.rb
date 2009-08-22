@@ -3,4 +3,8 @@ class User < ActiveRecord::Base
   
   has_and_belongs_to_many :projects
   acts_as_authentic
+  
+  def admin?
+    role.eql? ADMIN
+  end
 end

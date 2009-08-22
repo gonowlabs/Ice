@@ -7,4 +7,8 @@ describe User do
   it "should identify an user as admin" do
     User.new(:role => User::ADMIN).admin?.should be_true
   end
+  
+  it "should identify an user isnt an admin" do
+    User.new.admin?.should be_false
+  end
 end
