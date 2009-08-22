@@ -6,9 +6,10 @@
     = javascript_include_tag :all
     = stylesheet_link_tag 'screen.css'
   %body
-    %div#header
-      %h1
-        %a{:href => root_path}
-          ice project
+    %div#headerBg
+      %div#header
+        %h1
+          %a{:href => root_path}
+            ice project
     %div#container
       = yield
