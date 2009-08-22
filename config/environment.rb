@@ -14,7 +14,6 @@ Rails::Initializer.run do |config|
   config.gem 'remarkable_rails', :lib => false
   config.gem 'rspec-rails', :lib => false
   config.gem 'rspec', :lib => false
-  config.gem 'my_ldap_authenticator'
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
