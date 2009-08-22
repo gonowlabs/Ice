@@ -4,6 +4,13 @@ describe Entry do
   should_belong_to :user
   should_belong_to :project
   should_validate_presence_of :user, :project, :date
+
+  context "uniqueness" do
+    before :each do
+      @entry = Factory(:entry)
+    end
+    should_validate_uniqueness_of :date, :scope => [:user_id, :project_id]
+  end
   
   context "reports" do
     before :each do

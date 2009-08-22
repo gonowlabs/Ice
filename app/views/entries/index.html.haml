@@ -2,21 +2,5 @@
 %h2
   User
   = current_user.name
-- form_tag url_for(:action => :update) do |form|
-  %table
-    %tr
-      %th{:class => "project"} Project
-      - dates = localized_week_dates(Date.today)
-      - localized_week_days.each_with_index do |day, i|
-        %th
-          = day
-          %br
-          = dates[i]
-    - current_user.projects.each do |project|
-      %tr{:class => cycle('pair', 'odd')}
-        %td{:class => "projects"}
-          =h project.name
-        - project.entries.for_week(Date.today, current_user).each_with_index do |entry, week_day|
-          %td
-            = text_field_tag "entries[#{entry.to_param}]", entry.hours
-  = submit_tag "Save"
+= render :partial => "hours_table", :locals => {:reference_date => Date.today}
+= render :partial => "hours_table", :locals => {:reference_date => Date.today + 5}

@@ -1,0 +1,32 @@
+- form_tag url_for(:action => :update) do |form|
+  %table
+    - hours_per_day = Array.new(7,0)
+    %tr
+      %th{:class => "project"} Project
+      - dates = localized_week_dates(reference_date)
+      - localized_week_days.each_with_index do |day, i|
+        %th
+          = day
+          %br
+          = dates[i]
+      %th Total
+    - current_user.projects.each do |project|
+      - project_total = 0
+      %tr{:class => cycle('pair', 'odd')}
+        %td{:class => "projects"}
+          =h project.name
+        - project.entries.for_week(reference_date, current_user).each_with_index do |entry, week_day|
+          %td
+            = text_field_tag "entries[#{entry.to_param}]", entry.hours
+            - hours_per_day[week_day] += entry.hours
+            - project_total += entry.hours
+        %td
+          = project_total
+    %tr
+      %td Total
+      - hours_per_day.each do |day_total|
+        %td
+          = day_total
+      %td
+        = hours_per_day.sum
+  = submit_tag "Save"

@@ -1,7 +1,7 @@
 class Project < ActiveRecord::Base
   belongs_to :contract
   has_and_belongs_to_many :users
-  validates_presence_of :name
+  validates_presence_of :name, :contract
 
   has_many :entries do
     def between(starting_date, ending_date)
