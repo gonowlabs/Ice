@@ -4,8 +4,8 @@
   - hours_per_day = Array.new(7,0)
   %tr
     %th.project Project
-    - dates = localized_week_dates(@reference_date)
-    - localized_week_days.each_with_index do |day, i|
+    - week_names = localized_week_days
+    - week_names.each_with_index do |day, i|
       %th= day
     %th Total
   - current_user.projects.each do |project|
@@ -15,16 +15,16 @@
         =h project.name
       - project.entries.for_week_and_user(@reference_date, current_user).each_with_index do |entry, week_day|
         %td
-          = text_field_tag "entry_#{entry.to_param}", entry.hours
+          = text_field_tag "entry_#{entry.to_param}", entry.hours, :class => "entry project_#{project.id} #{week_names[week_day]}"
           = observe_field "entry_#{entry.to_param}", :url => entry_path(entry), :frequency => 0.25, :method => 'put', :with => "'hours=' + value"
-
           - hours_per_day[week_day] += entry.hours
           - project_total += entry.hours
-      %td= project_total
+      %td{:class => "total_project project_#{project.id}" } 
+        = project_total
   %tr
     %td.total_hours Total
-    - hours_per_day.each do |day_total|
-      %td.total_hour
+    - hours_per_day.each_with_index do |day_total, week_day|
+      %td{:class => "total_hour #{week_names[week_day]}"}
         = day_total
     %td.total_hour
       = hours_per_day.sum
