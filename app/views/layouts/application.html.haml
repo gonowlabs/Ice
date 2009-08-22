@@ -11,5 +11,7 @@
         %h1
           %a{:href => root_path}
             ice project
+        %h2
+          = current_user.name
     %div#container
       = yield

@@ -24,44 +24,10 @@ a {
 a:hover { color: #ff8c00; }
 input, textarea, select {
   border: 1px solid #cccccc;
-  color: #666666;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  color: #7e7e7e;
 }
-table {
-  border-collapse: separate;
-  border-spacing: 1;
-  caption-side: top;
-  empty-cells: show;
-  table-layout: fixed;
-  width: 100%;
-}
-table tr th {
-  text-align: center;
-  width: 12.5%;
-  background: #f0f0f0;
-  padding: 5px;
-}
-table tr td {
-  text-align: center;
-  width: 12.5%;
-  padding: 5px;
-}
-table tr td input {
-  width: 50px;
-  background: none;
-  padding: 0;
-  font-size: 18px;
-  text-align: center;
-}
-table tr .project {
-  background: #e8e8e8;
-  text-align: left;
-}
-table tr .projects {
-  text-align: left;
-  background: #f0f0f0;
-}
-table .odd { background: #f0f0f0; }
-table .pair { background: #f8f8f8; }
 #headerBg {
   background: #33ccff;
   margin: 0;
@@ -82,9 +48,64 @@ table .pair { background: #f8f8f8; }
   color: #ffffff;
   text-decoration: none;
 }
+#header h2 {
+  margin: 29px 0 0 0;
+  padding: 0;
+  font-size: 14px;
+  float: right;
+  color: #ffffff;
+}
 #container {
   margin: 0 auto 0 auto;
   width: 980px;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 1;
+  caption-side: top;
+  empty-cells: show;
+  table-layout: fixed;
+  width: 100%;
+  float: right;
+}
+table tr th {
+  text-align: center;
+  width: 11.1%;
+  background: #f0f0f0;
+  padding: 5px;
+}
+table tr .total_hour {
+  text-align: center;
+  width: 11.1%;
+  background: #f0f0f0;
+  padding: 5px;
+}
+table tr td {
+  text-align: center;
+  width: 11.1%;
+  padding: 5px;
+}
+table tr td input {
+  width: 50px;
+  background: none;
+  padding: 0;
+  font-size: 18px;
+  text-align: center;
+}
+table tr .project {
+  background: #e8e8e8;
+  text-align: left;
+}
+table tr .total_hours {
+  background: #e8e8e8;
+  text-align: left;
+}
+table tr .projects { text-align: left; }
+table .odd { background: #f0f0f0; }
+table .pair { background: #f8f8f8; }
+.save_hours {
+  margin: 10px 0 10px 2px;
+  float: right;
 }
 .formtastic {
   margin: 0;

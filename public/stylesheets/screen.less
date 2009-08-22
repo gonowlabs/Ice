@@ -20,48 +20,9 @@ a:hover{
 }
 input, textarea, select{
   border:1px solid #ccc;
-  color: #666;
-}
-table{
-  border-collapse:separate;
-  border-spacing:1;
-  caption-side:top;
-  empty-cells:show;
-  table-layout:fixed;
-  width:100%;
-  tr{
-    th{
-      text-align:center;
-      width:12.5%;
-      background:#F0F0F0;
-      padding:5px;
-    }
-    td{
-      text-align:center;
-      width:12.5%;
-      padding:5px;
-      input{
-        width:50px;
-        background:none;
-        padding:0;
-        font-size:18px;
-        text-align:center;
-      }
-    }
-    .project{
-      background:#E8E8E8;
-      text-align:left;
-    }
-    .projects{
-      text-align:left;
-    }
-  }
-  .odd{
-    background:#F0F0F0;
-  }
-  .pair{
-    background:#F8F8F8;
-  }
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  color: #7e7e7e;
 }
 #headerBg{
   background:#33ccff;
@@ -82,10 +43,63 @@ table{
       text-decoration:none;
     }
   }
+  h2{
+    margin:29px 0 0 0;
+    padding:0;
+    font-size:14px;
+    float:right;
+    color: #fff;
+  }
 }
 #container{
   margin:0 auto 0 auto;
   width:@width-page;
+}
+table{
+  border-collapse:separate;
+  border-spacing:1;
+  caption-side:top;
+  empty-cells:show;
+  table-layout:fixed;
+  width:100%;
+  float:right;
+  tr{
+    th, .total_hour{
+      text-align:center;
+      width:11.1%;
+      background:#F0F0F0;
+      padding:5px;
+    }
+    td{
+      text-align:center;
+      width:11.1%;
+      padding:5px;
+      input{
+        width:50px;
+        background:none;
+        padding:0;
+        font-size:18px;
+        text-align:center;
+      }
+    }
+    .project, .total_hours{
+      background:#E8E8E8;
+      text-align:left;
+    }
+    .projects{
+      text-align:left;
+    }
+  }
+  .odd{
+    background:#F0F0F0;
+  }
+  .pair{
+    background:#F8F8F8;
+  }
+}
+.save_hours{
+  margin:10px 0 10px 2px;
+  float:right;
 }
 .formtastic{
   margin:0;

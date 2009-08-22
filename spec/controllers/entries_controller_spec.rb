@@ -4,5 +4,5 @@ describe EntriesController do
   before :each do
     login
   end
-  should_behave_like_resource :actions => [:index, :update]
+  should_behave_like_resource :actions => [:update]
 end
