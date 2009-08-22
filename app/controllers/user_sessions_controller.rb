@@ -1,17 +1,5 @@
-class UserSessionsController < AuthenticatedController
-  def new
-    @user_session = UserSession.new
-  end
-  
-  def create
-    @user_session = UserSession.new(params[:user_session])
-    if @user_session.save
-      flash[:notice] = I18n.t :login_successful
-      redirect_back_or_default home_path
-    else
-      render :new
-    end
-  end
+class UserSessionsController < InheritedResources::Base
+  skip_before_filter :require_user, :only => [:new, :create]
   
   def destroy
     current_user_session.destroy
