@@ -7,12 +7,15 @@ class Project < ActiveRecord::Base
     def between(starting_date, ending_date)
       all(:conditions => {:date => (starting_date..ending_date)}, :order => :date)
     end
-    def for_week(reference_date, user = nil)
+    def for_week_and_user(reference_date, user)
       starting_date, ending_date = [reference_date.monday, reference_date.monday + 6]
-      result = between(starting_date, ending_date)
-      if result.empty? && user
+      result = []
+      self.with_scope(:find => {:conditions => {:user_id => user}}) do
+        result = between(starting_date, ending_date)
+      end
+      if (result.length < 7)
         result = (starting_date..ending_date).map do |date|
-          proxy_owner.entries.create!(:user => user, :date => date, :hours => 0)
+          proxy_owner.entries.create(:user => user, :date => date, :hours => 0)
         end
       end
       result

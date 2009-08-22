@@ -15,7 +15,7 @@
       %tr{:class => cycle('pair', 'odd')}
         %td{:class => "projects"}
           =h project.name
-        - project.entries.for_week(reference_date, current_user).each_with_index do |entry, week_day|
+        - project.entries.for_week_and_user(reference_date, current_user).each_with_index do |entry, week_day|
           %td
             = text_field_tag "entries[#{entry.to_param}]", entry.hours
             - hours_per_day[week_day] += entry.hours
