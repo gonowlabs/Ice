@@ -13,7 +13,7 @@ describe Entry do
     before :each do
       project = Factory(:project_1)
       user = Factory(:user_a, :projects => [project])
-      Factory(:entry_1, :project => project, :user => user)
+      Factory(:entry, :project => project, :user => user)
     end
     should_validate_uniqueness_of :date, :scope => [:user_id, :project_id]
   end
