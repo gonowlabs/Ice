@@ -1,0 +1,7 @@
+%h1
+  = I18n.t :contract
+- semantic_form_for @contract do |form|
+  = form.inputs :name, :description
+  = form.buttons
+= link_to I18n.t(:show), @contract
+= link_to I18n.t(:back), contracts_path
