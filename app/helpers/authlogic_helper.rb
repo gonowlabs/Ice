@@ -25,4 +25,8 @@ module AuthlogicHelper
   def redirect_back_or_default(default)
     redirect_to(session.delete(:return_to) || default)
   end
+  
+  def require_admin
+    @current_user.admin?
+  end
 end
