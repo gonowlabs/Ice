@@ -18,7 +18,7 @@ describe Entry do
     should_validate_uniqueness_of :date, :scope => [:user_id, :project_id]
   end
 
-  context "reports" do
+  context "reporting approved hours" do
     before :each do
       @begin_date, @finish_date = Date.today - 10, Date.today
       @entries = build_entries
@@ -27,8 +27,8 @@ describe Entry do
     it "should return the cost for a contract in a period" do
       contract_id = 10
       result = @entries.sum {|entry| entry.hours}
-      Entry.stub!(:sum).with(:hours, :joins => :project, 
-        :conditions => {:projects => {:contract_id => contract_id}, :date => (@begin_date..@finish_date) }).and_return(result)
+      Entry.should_receive(:sum).with(:hours, :joins => :project, 
+        :conditions => {:projects => {:contract_id => contract_id}, :date => (@begin_date..@finish_date), :status => Entry::APPROVED}).and_return(result)
       cost = Entry.cost_by_contract contract_id, :from => @begin_date, :to => @finish_date
       cost.should eql(result)
     end
@@ -36,7 +36,7 @@ describe Entry do
     it "should return the cost for a project in a period" do
       project_id = 10
       result = @entries.sum {|entry| entry.hours}
-      Entry.stub!(:sum).with(:hours, :conditions => {:project_id => project_id, :date => (@begin_date..@finish_date)}).and_return(result)
+      Entry.stub!(:sum).with(:hours, :conditions => {:project_id => project_id, :date => (@begin_date..@finish_date), :status => Entry::APPROVED}).and_return(result)
       cost = Entry.cost_by_project project_id, :from => @begin_date, :to => @finish_date
       cost.should eql(result)
     end
@@ -44,7 +44,7 @@ describe Entry do
     it "should return the cost for a user in a period" do
       user_id = 10
       result = @entries.sum {|entry| entry.hours}
-      Entry.stub!(:sum).with(:hours, :conditions => {:user_id => user_id, :date => (@begin_date..@finish_date)}).and_return(result)
+      Entry.stub!(:sum).with(:hours, :conditions => {:user_id => user_id, :date => (@begin_date..@finish_date), :status => Entry::APPROVED}).and_return(result)
       cost = Entry.cost_by_user user_id, :from => @begin_date, :to => @finish_date
       cost.should eql(result)
     end
