@@ -2,6 +2,8 @@ namespace :db do
   desc "Populate database"
   task :populate => :environment do
     Contract.destroy_all
+    Project.destroy_all
+    
     contract1 = Contract.create! :name => "Contract1"
     contract2 = Contract.create! :name => "Contract2"
 
