@@ -9,5 +9,11 @@ describe ApplicationController do
       get :index
       response.should render_template('application/admin')
     end
+    
+    it "should render manager if the user is a manager" do
+      login_manager
+      get :index
+      response.should render_template('application/manager')
+    end
   end
 end

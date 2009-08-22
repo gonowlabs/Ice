@@ -11,4 +11,12 @@ describe User do
   it "should identify an user isnt an admin" do
     User.new.admin?.should be_false
   end
+  
+  it "should identify an user is a manager" do
+    User.new(:role => User::MANAGER).manager?.should be_true
+  end
+  
+  it "should identify an user isnt a manager" do
+    User.new.manager?.should be_false
+  end
 end

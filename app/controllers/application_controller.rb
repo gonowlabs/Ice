@@ -13,5 +13,6 @@ class ApplicationController < ActionController::Base
   
   def index
     render :template => 'admin' if current_user.admin?
+    render :template => 'manager' if current_user.manager?
   end
 end

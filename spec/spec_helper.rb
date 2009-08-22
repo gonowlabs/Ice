@@ -25,3 +25,7 @@ end
 def login_admin
   controller.stub!(:current_user).and_return(User.new(:role => User::ADMIN))
 end
+
+def login_manager
+  controller.stub!(:current_user).and_return(User.new(:role => User::MANAGER))
+end
