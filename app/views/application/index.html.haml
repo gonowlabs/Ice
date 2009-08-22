@@ -2,23 +2,21 @@
 %h2
   User
   = current_user.name
-%table
-  %tr
-    %th Project
-    %th Monday
-    %th Thuesday
-    %th Wednesday
-    %th Thursday
-    %th Friday
-    %th Saturday
-    %th Sunday
-= form_tag do |form|
+- form_tag do |form|
   %table
+    %tr
+      %th{:class => "project"} Project
+      %th Monday
+      %th Thuesday
+      %th Wednesday
+      %th Thursday
+      %th Friday
+      %th Saturday
+      %th Sunday
     - current_user.projects.each do |project|
       %tr
-        %td
+        %td{:class => "projects odd"}
           =h project.name
-      %tr
         - 7.times do |i|
-          %td
+          %td{:class => "odd"}
             = text_field_tag :value => 0

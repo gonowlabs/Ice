@@ -26,6 +26,39 @@ input, textarea, select {
   border: 1px solid #cccccc;
   color: #666666;
 }
+table {
+  border-collapse: separate;
+  border-spacing: 1;
+  caption-side: top;
+  empty-cells: show;
+  table-layout: fixed;
+  width: 100%;
+}
+table tr th {
+  text-align: center;
+  width: 12.5%;
+  background: #f0f0f0;
+  padding: 5px;
+}
+table tr td {
+  text-align: center;
+  width: 12.5%;
+  padding: 5px;
+  background: #f8f8f8;
+}
+table tr td input {
+  width: 50px;
+  background: none;
+  padding: 0;
+  font-size: 18px;
+  text-align: center;
+}
+table tr .project {
+  background: #e8e8e8;
+  text-align: left;
+}
+table tr .projects { text-align: left; }
+table tr .odd { background: #f0f0f0; }
 #headerBg {
   background: #33ccff;
   margin: 0;
