@@ -1,7 +1,5 @@
-%h1 Listing entries
-
-= @reference_date.monday.to_s + ' - ' + (@reference_date.monday + 7).to_s
-
+%h2
+  = @reference_date.monday.to_s + ' - ' + (@reference_date.monday + 7).to_s
 %table
   - hours_per_day = Array.new(7,0)
   %tr
