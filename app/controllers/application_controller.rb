@@ -13,13 +13,27 @@ class ApplicationController < ActionController::Base
 
   def index
     if current_user.admin?
-      @contracts = Contract.all
-      @users = User.all
-      render 'admin'
+      render_admin
     elsif current_user.manager?
-      render 'manager'
+      render_manager
     else
-      @reference_date = Date.today
+      render_worker
     end
+  end
+  
+  private
+  
+  def render_admin
+    @contracts = Contract.all
+    @users = User.all
+    render 'admin'
+  end
+  
+  def render_manager
+    render 'manager'
+  end
+  
+  def render_worker
+    @reference_date = Date.today
   end
 end

@@ -4,8 +4,7 @@
   - hours_per_day = Array.new(7,0)
   %tr
     %th.project Project
-    - dates = localized_week_dates(@reference_date)
-    - localized_week_days.each_with_index do |day, i|
+    - localized_week_days.each do |day|
       %th= day
     %th Total
   - current_user.projects.each do |project|
@@ -24,7 +23,5 @@
   %tr
     %td.total_hours Total
     - hours_per_day.each do |day_total|
-      %td.total_hour
-        = day_total
-    %td.total_hour
-      = hours_per_day.sum
+      %td.total_hour= day_total
+    %td.total_hour= hours_per_day.sum
