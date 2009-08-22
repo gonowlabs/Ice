@@ -1,28 +1,36 @@
-- for contract in @contracts
-  = contract.name
-  = link_to 'edit', edit_contract_path(contract)
-  %br
-  
+%h2 Horas trabalhadas por contrato
 %form{:action => cost_by_contract_path}
-  %select{:name => 'id'}
-    - for contract in @contracts
-      %option{:value => contract.id}= contract.name
-  %input{:type => 'text', :name => 'from'}
-  %input{:type => 'text', :name => 'to'}
-  %input{:type => 'submit'}
-  
+  %p
+    %select{:name => 'id'}
+      %option{:value => ""}= "Contratos"
+      - for contract in @contracts
+        %option{:value => contract.id}= contract.name
+    %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "Data inicial", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'to', :title => "Data final", :value => "Data final", :class => "placeHolder datepicker"}
+    %input{:type => 'submit', :value => '>'}
+%h2 Horas trabalhadas por projeto
 %form{:action => cost_by_project_path}
-  %select{:name => 'id'}
-    - for project in projects_from(@contracts)
-      %option{:value => project.id}= project.name
-  %input{:type => 'text', :name => 'from'}
-  %input{:type => 'text', :name => 'to'}
-  %input{:type => 'submit'}
-  
+  %p
+    %select{:name => 'id'}
+      %option{:value => ""}= "Projetos"
+      - for project in projects_from(@contracts)
+        %option{:value => project.id}= project.name
+    %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "Data inicial", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'to', :title => "Data final", :value => "Data final", :class => "placeHolder datepicker"}
+    %input{:type => 'submit', :value => '>'}
+%h2 Horas trabalhadas por pessoa
 %form{:action => cost_by_user_path}
-  %select{:name => 'id'}
-    - for user in workers(@users)
-      %option{:value => user.id}= user.name
-  %input{:type => 'text', :name => 'from'}
-  %input{:type => 'text', :name => 'to'}
-  %input{:type => 'submit'}
+  %p
+    %select{:name => 'id'}
+      %option{:value => ""}= "Pessoas"
+      - for user in workers(@users)
+        %option{:value => user.id}= user.name
+    %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "Data inicial", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'to', :title => "Data final", :value => "Data final", :class => "placeHolder datepicker"}
+    %input{:type => 'submit', :value => '>'}
+%h2 Contratos
+- for contract in @contracts
+  %ul
+    %li
+      = contract.name
+      = link_to "[#{I18n.t :edit}]", edit_contract_path(contract)

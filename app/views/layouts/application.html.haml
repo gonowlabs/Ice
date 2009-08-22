@@ -5,6 +5,7 @@
     %title ice project
     = javascript_include_tag :all
     = stylesheet_link_tag 'screen.css'
+    = stylesheet_link_tag 'jquery-ui-1.7.2.custom.css'
   %body
     %div#headerBg
       %div#header
@@ -13,5 +14,6 @@
             ice project
         %h2
           = current_user.name
+          [Sair]
     %div#container
       = yield
