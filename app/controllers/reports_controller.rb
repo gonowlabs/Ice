@@ -9,4 +9,8 @@ class ReportsController < InheritedResources::Base
   def cost_by_project
     @entries = Entry.cost_by_project params[:id], params
   end
+  
+  def cost_by_user
+    @entries = Entry.cost_by_user params[:id], params
+  end
 end

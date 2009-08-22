@@ -21,5 +21,10 @@ describe ReportsController do
       Entry.should_receive(:cost_by_project).with(@id, hash_including(:from => @begin_date, :to => @finish_date))
       get :cost_by_project, :id => @id, :from => @begin_date, :to => @finish_date
     end
+    
+    it "should look for the cost of an user in a period" do
+      Entry.should_receive(:cost_by_user).with(@id, hash_including(:from => @begin_date, :to => @finish_date))
+      get :cost_by_user, :id => @id, :from => @begin_date, :to => @finish_date
+    end
   end
 end
