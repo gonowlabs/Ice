@@ -20,12 +20,18 @@ namespace :db do
     user1 = User.create! :name => "Diego Carrion"  , :email => 'dcrec1@gonow.com.br'     , :login => 'dcrec1', :password => 'teste123', :password_confirmation => 'teste123'
     user2 = User.create! :name => "Rafael Rosa"    , :email => 'rafaelrosafu@gmail.com'  , :login => 'rafaelrosafu', :password => 'teste123', :password_confirmation => 'teste123'
     user3 = User.create! :name => "Ricardo Almeida", :email => 'ricardoalmeida@gmail.com', :login => 'ricardoalmeida', :password => 'teste123', :password_confirmation => 'teste123'
+    user4 = User.create! :name => "Alexandre Gandra", :email => 'grandra@gmail.com'      , :login => 'labs', :password => 'gandra', :password_confirmation => 'gandra', :role => User::ADMIN
 
     project1.users << user1
     project2.users << user2
     project3.users << user1
     project4.users << user3
     project4.users << user1
+
+    project1.users << user4
+    project2.users << user4
+    project3.users << user4
+    project4.users << user4
     
     Entry.delete_all
     (Date.today - 10).upto(Date.today) do |date|
