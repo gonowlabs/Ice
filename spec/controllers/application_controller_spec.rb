@@ -26,10 +26,17 @@ describe ApplicationController do
     end
 
     context "if user is a manager" do
-      it "should render manager" do
+      before :each do
         login_manager
+      end
+      it "should render manager" do
         get :index
         response.should render_template('application/manager')
+      end
+      
+      it "should return today as the reference date for the week as default" do
+        get :index
+        assigns[:reference_date].should eql(Date.today)
       end
     end
 

@@ -30,6 +30,7 @@ class ApplicationController < ActionController::Base
   end
   
   def render_manager
+    @reference_date = Date.today
     render 'manager'
   end
   
