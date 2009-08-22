@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
       all(:conditions => {:date => (starting_date..ending_date)}, :order => :date)
     end
     def for_week_and_user(reference_date, user)
-      starting_date, ending_date = [reference_date.monday, reference_date.monday + 6]
+      starting_date, ending_date = [reference_date.monday, reference_date.sunday]
       result = []
       self.with_scope(:find => {:conditions => {:user_id => user}}) do
         result = between(starting_date, ending_date)

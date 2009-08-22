@@ -7,11 +7,13 @@ describe Entry do
 
   context "uniqueness" do
     before :each do
-      @entry = Factory(:entry)
+      project = Factory(:project_1)
+      user = Factory(:user_a, :projects => [project])
+      Factory(:entry_1, :project => project, :user => user)
     end
     should_validate_uniqueness_of :date, :scope => [:user_id, :project_id]
   end
-  
+
   context "reports" do
     before :each do
       @begin_date, @finish_date = Date.today - 10, Date.today
