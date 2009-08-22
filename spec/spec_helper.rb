@@ -31,7 +31,7 @@ def login_manager
 end
 
 def build_contracts
-  5.times.map {Contract.new}
+  5.times.map {build_contract}
 end
 
 def build_contract

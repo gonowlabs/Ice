@@ -5,6 +5,6 @@ module ApplicationHelper
   end
   
   def workers(users)
-    users
+    users.select { |user| ![User::ADMIN, User::MANAGER].include? user.role }
   end
 end

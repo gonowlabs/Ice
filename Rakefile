@@ -9,6 +9,8 @@ require 'rake/rdoctask'
 
 require 'tasks/rails'
 
+require 'metric_fu'
+
 desc "Inits the database"
 task :init => :environment do
   email = 'labs@gonow.com.br'
