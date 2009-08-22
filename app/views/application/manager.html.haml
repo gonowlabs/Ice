@@ -1,6 +1,6 @@
 = render :partial => 'header', :locals => {:date => @reference_date}
-- hours_per_day = Array.new(7,0)
 - for project in @projects
+  - hours_per_day = Array.new(7,0)
   .project
     = project.name
     %table
@@ -10,7 +10,7 @@
         %tr{:class => cycle('pair', 'odd')}
           %td.name
             =h user.name
-          - user.entries.for_week_and_project(@reference_date, project.id).each_with_index do |entry, week_day|
+          - user.entries.for_week_and_project(@reference_date, project).each_with_index do |entry, week_day|
             %td
               = entry.hours
 

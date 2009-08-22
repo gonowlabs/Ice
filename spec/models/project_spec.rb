@@ -60,10 +60,6 @@ describe Project do
       it "all entries should belong to the same user" do
         @entries.all? {|entry| entry.user == @user}.should be_true
       end
-      it "and the entries of the other users shouldn't change" do
-        @entries = @project.entries.between(@starting_date, @ending_date, @user_b)
-        @entries.length.should == 1
-      end
     end
   end
 end
