@@ -1,3 +1,4 @@
 class EntriesController < InheritedResources::Base
-  respond_to :xml, :json
+  respond_to :html, :xml, :json
+  actions :index
 end
