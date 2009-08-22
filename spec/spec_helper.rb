@@ -33,3 +33,11 @@ end
 def build_contracts
   5.times.map {Contract.new}
 end
+
+def build_contract
+  Contract.new :projects => build_projects
+end
+
+def build_projects
+  3.times.map {Project.new}
+end
