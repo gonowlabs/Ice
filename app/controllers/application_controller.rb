@@ -12,7 +12,11 @@ class ApplicationController < ActionController::Base
   before_filter :require_user
   
   def index
-    render 'admin' if current_user.admin?
-    render 'manager' if current_user.manager?
+    if current_user.admin?
+      @contracts = Contract.all
+      render 'admin' 
+    elsif current_user.manager?
+      render 'manager'
+    end
   end
 end

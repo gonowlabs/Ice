@@ -4,10 +4,20 @@ describe ApplicationController do
   should_have_before_filter :require_user, :formats => [:html]
   
   context "on index" do
-    it "should render admin if the user is an admin" do
-      login_admin
-      get :index
-      response.should render_template('application/admin')
+    context "if user is an admin" do
+      before :each do
+        login_admin
+        Contract.stub!(:all).and_return(@contracts = build_contracts)
+        get :index
+      end
+      
+      it "should render admin" do
+        response.should render_template('application/admin')
+      end
+      
+      it "should return contracts as @contracts" do
+        assigns[:contracts].should eql(@contracts)
+      end
     end
     
     it "should render manager if the user is a manager" do

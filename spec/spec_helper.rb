@@ -29,3 +29,7 @@ end
 def login_manager
   controller.stub!(:current_user).and_return(User.new(:role => User::MANAGER))
 end
+
+def build_contracts
+  5.times.map {Contract.new}
+end
