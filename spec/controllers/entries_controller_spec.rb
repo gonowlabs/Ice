@@ -24,7 +24,7 @@ describe EntriesController do
       
       it "should update only the hours if the status is not approved" do
         hours = "12"
-        Entry.should_receive(:update_all).with("hours = #{hours}", "status = #{Entry::REJECTED} AND id = #{@id}")
+        Entry.should_receive(:update_all).with("hours = #{hours}", "(status is null or status <> #{Entry::APPROVED}) AND id = #{@id}")
         put :update, :id => @id, :hours => hours, :status => "3"
       end
     end
