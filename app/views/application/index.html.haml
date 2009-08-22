@@ -18,7 +18,7 @@
       - project.entries.for_week_and_user(@reference_date, current_user).each_with_index do |entry, week_day|
         %td
           = text_field_tag "entry_#{entry.to_param}", entry.hours
-          = observe_field "entry_#{entry.to_param}", :url => entry_path(entry), :frequency => 0.25, :method => 'put', :with => "'entry[hours]=' + value"
+          = observe_field "entry_#{entry.to_param}", :url => entry_path(entry), :frequency => 0.25, :method => 'put', :with => "'hours=' + value"
 
           - hours_per_day[week_day] += entry.hours
           - project_total += entry.hours

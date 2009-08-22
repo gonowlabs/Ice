@@ -1,4 +1,7 @@
 class Entry < ActiveRecord::Base
+  APPROVED = 1
+  REJECTED = 0
+  
   belongs_to :user
   belongs_to :project
   validates_presence_of :user, :project, :date
