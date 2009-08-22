@@ -11,7 +11,7 @@ module EntriesHelper
   
   def week_dates(base_date)
     result = []
-    7.times {|i| result << base_date.monday + i }
+    7.times {|day_of_week| result << base_date.monday + day_of_week }
     result
   end
 end
