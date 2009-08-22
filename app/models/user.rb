@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :entries do
     def for_week_and_project(date, project)
       (date.monday..date.sunday).map do |date|
-        proxy_owner.entries.find_or_create_by_project_id_and_date(:project_id => project.id, :date => date, :hours => 0.0)
+        proxy_owner.entries.find_or_create_by_project_id_and_date(project.id, date)
       end
     end
   end
