@@ -39,7 +39,11 @@ def build_contract
 end
 
 def build_projects
-  3.times.map {Project.new}
+  3.times.map {build_project}
+end
+
+def build_project
+  Project.new
 end
 
 def build_entries

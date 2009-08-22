@@ -1,0 +1,5 @@
+%tr
+  %td.total_hours Total
+  - hours.each do |total|
+    %td.total_hour= total
+  %td.total_hour= hours.sum

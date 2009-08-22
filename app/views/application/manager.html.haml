@@ -1,2 +1,20 @@
+= render :partial => 'header', :locals => {:date => @reference_date}
+- hours_per_day = Array.new(7,0)
 - for project in @projects
-  = project.name
+  .project
+    = project.name
+    %table
+      = render :partial => 'table_header', :locals => {:title => 'User'}
+      - for user in project.users
+        - row_total = 0
+        %tr{:class => cycle('pair', 'odd')}
+          %td.name
+            =h user.name
+          - user.entries.for_week_and_project(@reference_date, project.id).each_with_index do |entry, week_day|
+            %td
+              = entry.hours
+
+              - hours_per_day[week_day] += entry.hours
+              - row_total += entry.hours
+          %td= row_total
+      = render :partial => 'table_footer', :locals => {:hours => hours_per_day}
