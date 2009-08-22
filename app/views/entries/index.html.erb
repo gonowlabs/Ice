@@ -2,27 +2,28 @@
 
 <h2>User: <%= current_user.name %></h2>
 
-<table>
-  <tr>
-    <th>Project</th>
-    <th>Monday</th>
-    <th>Thuesday</th>
-    <th>Wednesday</th>
-    <th>Thursday</th>
-    <th>Friday</th>
-    <th>Saturday</th>
-    <th>Sunday</th>
-  </tr>
-
-<% form_tag do |form| %>
-  <% current_user.projects.each do |project| %>
+<% form_tag url_for(:action => :update) do |form| %>
+  <table>
     <tr>
-      <td><%=h project.name %></td>
-      <% 7.times do |i| %>
-        <td><%= text_field_tag :value => 0 %></td>
-      <% end %>
+      <th>Project</th>
+      <th>Monday</th>
+      <th>Thuesday</th>
+      <th>Wednesday</th>
+      <th>Thursday</th>
+      <th>Friday</th>
+      <th>Saturday</th>
+      <th>Sunday</th>
     </tr>
-  <% end %>
+
+    <% current_user.projects.each do |project| %>
+      <tr>
+        <td><%=h project.name %></td>
+        <% 7.times do |week_day| %>
+          <td><%= text_field_tag "projects[#{project.to_param}][#{week_day}]", 0 %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+  <%= submit_tag "Save" %>
 <% end %>
-</table>
 
