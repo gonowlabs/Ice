@@ -8,4 +8,10 @@ module EntriesHelper
   def localized_week_dates(base_date)
     week_dates(base_date).map {|date| I18n.localize date}
   end
+  
+  def week_dates(base_date)
+    result = []
+    7.times {|i| result << base_date.monday + i }
+    result
+  end
 end

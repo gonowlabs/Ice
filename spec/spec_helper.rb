@@ -45,3 +45,7 @@ end
 def build_entries
   5.times.map {Entry.new(:hours => rand(10))}
 end
+
+def build_users
+  4.times.map {User.new}
+end

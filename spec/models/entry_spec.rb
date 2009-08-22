@@ -2,6 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Entry do
   before :all do
+    User.delete_all
     Factory(:entry)
   end
   

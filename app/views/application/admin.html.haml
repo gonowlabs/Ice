@@ -3,6 +3,26 @@
   = link_to 'edit', edit_contract_path(contract)
   %br
   
-= link_to 'Custo por contrato', cost_by_contract_path
-= link_to 'Custo por projecto', cost_by_project_path
-= link_to 'Custo por user', cost_by_user_path
+%form{:action => cost_by_contract_path}
+  %select{:name => 'id'}
+    - for contract in @contracts
+      %option{:value => contract.id}= contract.name
+  %input{:type => 'text', :name => 'from'}
+  %input{:type => 'text', :name => 'to'}
+  %input{:type => 'submit'}
+  
+%form{:action => cost_by_project_path}
+  %select{:name => 'id'}
+    - for project in projects_from(@contracts)
+      %option{:value => project.id}= project.name
+  %input{:type => 'text', :name => 'from'}
+  %input{:type => 'text', :name => 'to'}
+  %input{:type => 'submit'}
+  
+%form{:action => cost_by_user_path}
+  %select{:name => 'id'}
+    - for user in workers(@users)
+      %option{:value => user.id}= user.name
+  %input{:type => 'text', :name => 'from'}
+  %input{:type => 'text', :name => 'to'}
+  %input{:type => 'submit'}

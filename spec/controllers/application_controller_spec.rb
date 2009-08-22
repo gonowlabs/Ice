@@ -7,6 +7,7 @@ describe ApplicationController do
     context "if user is an admin" do
       before :each do
         login_admin
+        User.stub!(:all).and_return(@users = build_users)
         Contract.stub!(:all).and_return(@contracts = build_contracts)
         get :index
       end
@@ -17,6 +18,10 @@ describe ApplicationController do
       
       it "should return contracts as @contracts" do
         assigns[:contracts].should eql(@contracts)
+      end
+      
+      it "should return users as @users" do
+        assigns[:users].should eql(@users)
       end
     end
     

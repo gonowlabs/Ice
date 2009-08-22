@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   def index
     if current_user.admin?
       @contracts = Contract.all
+      @users = User.all
       render 'admin' 
     elsif current_user.manager?
       render 'manager'
