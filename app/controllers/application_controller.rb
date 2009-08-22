@@ -8,12 +8,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  filter_parameter_logging :password
   before_filter :require_user
   
   def index
     if current_user.admin?
       @contracts = Contract.all
+      @users = User.all
       render 'admin' 
     elsif current_user.manager?
       render 'manager'

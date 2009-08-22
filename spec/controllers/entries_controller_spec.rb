@@ -4,5 +4,5 @@ describe EntriesController do
   before :each do
     login
   end
-  should_behave_like_resource :except => [:destroy, :update, :new, :create, :edit, :show]
+  should_behave_like_resource :actions => [:index, :update]
 end

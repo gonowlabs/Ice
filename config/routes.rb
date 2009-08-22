@@ -1,18 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :entries
-
   map.resources :users
   map.resources :projects
   map.resources :contracts
-
-  map.resources :contracts
-
-  map.root :controller => 'entries'
 
   map.signup '/signup',  :controller => 'users', :action => 'new'
   
   map.login '/login', :controller => "user_sessions", :action => 'new'
   map.signup '/logout', :controller => 'user_sessions', :action => 'destroy'
+  
+  map.cost_by_contract '/cost_by_contract', :controller => "reports", :action => 'cost_by_contract'
+  map.cost_by_project  '/cost_by_project',  :controller => "reports", :action => 'cost_by_project'
+  map.cost_by_user     '/cost_by_user',     :controller => "reports", :action => 'cost_by_user'
+  
   map.resource :user_sessions
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -54,6 +54,4 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
 end

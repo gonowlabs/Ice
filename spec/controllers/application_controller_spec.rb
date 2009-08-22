@@ -7,6 +7,7 @@ describe ApplicationController do
     context "if user is an admin" do
       before :each do
         login_admin
+        User.stub!(:all).and_return(@users = build_users)
         Contract.stub!(:all).and_return(@contracts = build_contracts)
         get :index
       end
@@ -18,12 +19,22 @@ describe ApplicationController do
       it "should return contracts as @contracts" do
         assigns[:contracts].should eql(@contracts)
       end
+      
+      it "should return users as @users" do
+        assigns[:users].should eql(@users)
+      end
     end
     
     it "should render manager if the user is a manager" do
       login_manager
       get :index
       response.should render_template('application/manager')
+    end
+    
+    it "should render index if the user is not a manager nor an admin" do
+      login
+      get :index
+      response.should render_template('application/index')
     end
   end
 end

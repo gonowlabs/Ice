@@ -31,7 +31,7 @@ def login_manager
 end
 
 def build_contracts
-  5.times.map {Contract.new}
+  5.times.map {build_contract}
 end
 
 def build_contract
@@ -44,4 +44,8 @@ end
 
 def build_entries
   5.times.map {Entry.new(:hours => rand(10))}
+end
+
+def build_users
+  4.times.map {User.new}
 end
