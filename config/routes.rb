@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :contracts
 
-  map.root :controller => 'application'
+  map.root :controller => 'entries'
 
   map.signup '/signup',  :controller => 'users', :action => 'new'
   
