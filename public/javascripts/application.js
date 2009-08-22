@@ -2,7 +2,6 @@ $(function() {
   $(".placeHolder").focus(placeHolder)
   $(".placeHolder").blur(placeHolder)
   $(".datepicker").datepicker({ dayNamesMin: ['Se', 'Te', 'Qu', 'Qu', 'Se', 'Sá', 'Do'], monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'] });
-  $(".entry").blur(calcula_total_semana)
 })
 
 function placeHolder(){
@@ -16,27 +15,21 @@ function placeHolder(){
   }  
 }
 
-function calcula_total_semana(){
-	var coluna = '.'+$(this).attr('class').split(' ').pop();
-	var soma = 0;
-	$(coluna).each(function(){
-		if ($(this).hasClass('total_hour')) {
-			$(this).text(soma);
-		} else {
-			soma = soma + parseFloat($(this).val());
-		}
-	});
-	calcula_total_projeto($(this));
+function calculateTotals(id){
+	var campo = $("#" + id);
+	updateTotal(campo, 'week');
+	updateTotal(campo, 'project');
 }
 
-function calcula_total_projeto(campo){
-	var linha = '.'+campo.attr('class').split(' ')[1];
+function updateTotal(field, attribute) {
 	var soma = 0;
-	$(linha).each(function(){
-		if (campo.hasClass('total_project')) {
-			campo.text(soma);
+	var selector = "*[" + attribute + "='" + field.attr(attribute) + "']";
+	$(selector).each(function() {
+		var obj = $(this);
+		if (obj.hasClass('total')) {
+			obj.text(soma);
 		} else {
-			soma = soma + parseFloat(campo.val());
+			soma = soma + parseFloat(obj.val());
 		}
-	});	
+	});
 }

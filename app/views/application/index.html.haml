@@ -8,10 +8,10 @@
         =h project.name
       - project.entries.for_week_and_user(@reference_date, current_user).each_with_index do |entry, week_day|
         %td
-          = text_field_tag "entry_#{entry.id}", entry.hours, :class => "entry project_#{project.id} #{week_names[week_day]}"
-          = observe_field "entry_#{entry.id}", :url => entry_path(entry), :frequency => 0.25, :method => 'put', :with => "'hours=' + value"
+          = text_field_tag "entry_#{entry.id}", entry.hours, :class => "entry", :week => week_names[week_day], :project => project.id
+          = observe_field "entry_#{entry.id}", :url => entry_path(entry), :frequency => 0.25, :method => 'put', :with => "'hours=' + value", :complete => "calculateTotals('entry_#{entry.id}');"
 
           - hours_per_day[week_day] += entry.hours
           - row_total += entry.hours
-      %td{:class => "total_project project_#{project.id}" } 
+      %td{:class => "total project", :project => project.id } 
         = row_total
