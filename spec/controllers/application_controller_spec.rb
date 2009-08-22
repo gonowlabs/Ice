@@ -28,7 +28,9 @@ describe ApplicationController do
     context "if user is a manager" do
       before :each do
         login_manager
+        Project.stub!(:find_all_by_manager_id)
       end
+      
       it "should render manager" do
         get :index
         response.should render_template('application/manager')
@@ -37,6 +39,12 @@ describe ApplicationController do
       it "should return today as the reference date for the week as default" do
         get :index
         assigns[:reference_date].should eql(Date.today)
+      end
+      
+      it "should return projects as @projects" do
+        Project.stub!(:find_all_by_manager_id).with(@user.id).and_return(projects = build_projects)
+        get :index
+        assigns[:projects].should eql(projects)
       end
     end
 
