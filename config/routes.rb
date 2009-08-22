@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup',  :controller => 'users', :action => 'new'
   
   map.login '/login', :controller => "user_sessions", :action => 'new'
-  map.signup '/logout', :controller => 'user_sessions', :action => 'destroy'
+  map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'
   
   map.cost_by_contract '/cost_by_contract', :controller => "reports", :action => 'cost_by_contract'
   map.cost_by_project  '/cost_by_project',  :controller => "reports", :action => 'cost_by_project'

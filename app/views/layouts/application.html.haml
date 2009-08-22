@@ -15,6 +15,6 @@
         %h2
           - if current_user
             = current_user.name
-            [Sair]
+            = link_to "[Sair]", logout_path
     %div#container
       = yield
