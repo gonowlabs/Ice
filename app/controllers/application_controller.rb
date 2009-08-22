@@ -36,6 +36,7 @@ class ApplicationController < ActionController::Base
   end
   
   def render_worker
+    @projects = current_user.projects
     @reference_date = Date.today
   end
 end

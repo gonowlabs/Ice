@@ -51,6 +51,7 @@ describe ApplicationController do
     context "if user is a worker" do
       before :each do
         login
+        @user.stub!(:projects).and_return(@projects = build_projects)
       end
 
       it "should render index" do
@@ -61,6 +62,11 @@ describe ApplicationController do
       it "should return today as the reference date for the week as default" do
         get :index
         assigns[:reference_date].should eql(Date.today)
+      end
+      
+      it "should return projects as @projects" do
+        get :index
+        assigns[:projects].should eql(@projects)
       end
     end
   end

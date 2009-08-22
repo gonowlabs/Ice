@@ -19,7 +19,7 @@ Spec::Runner.configure do |config|
 end
 
 def login
-  controller.stub!(:current_user).and_return(User.new)
+  controller.stub!(:current_user).and_return(@user = User.new)
 end
 
 def login_admin
