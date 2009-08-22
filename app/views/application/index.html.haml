@@ -1,0 +1,22 @@
+%h1 Listing entries
+%h2
+  User
+  = current_user.name
+- form_tag do |form|
+  %table
+    %tr
+      %th{:class => "project"} Project
+      %th Monday
+      %th Thuesday
+      %th Wednesday
+      %th Thursday
+      %th Friday
+      %th Saturday
+      %th Sunday
+    - current_user.projects.each do |project|
+      %tr{:class => cycle('pair', 'odd')}
+        %td{:class => "projects"}
+          =h project.name
+        - 7.times do |i|
+          %td
+            = text_field_tag :value => 0
