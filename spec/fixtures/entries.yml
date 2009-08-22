@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user: 
+  project: 
+  date: 2009-08-21
+  hours: 1.5
+
+two:
+  user: 
+  project: 
+  date: 2009-08-21
+  hours: 1.5
