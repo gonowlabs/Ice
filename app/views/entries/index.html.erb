@@ -1,26 +1,28 @@
 <h1>Listing entries</h1>
 
+<h2>User: <%= current_user.name %></h2>
+
 <table>
   <tr>
-    <th>User</th>
     <th>Project</th>
-    <th>Date</th>
-    <th>Hours</th>
+    <th>Monday</th>
+    <th>Thuesday</th>
+    <th>Wednesday</th>
+    <th>Thursday</th>
+    <th>Friday</th>
+    <th>Saturday</th>
+    <th>Sunday</th>
   </tr>
 
-<% @entries.each do |entry| %>
-  <tr>
-    <td><%=h entry.user %></td>
-    <td><%=h entry.project %></td>
-    <td><%=h entry.date %></td>
-    <td><%=h entry.hours %></td>
-    <td><%= link_to 'Show', entry %></td>
-    <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
-    <td><%= link_to 'Destroy', entry, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% form_tag do |form| %>
+  <% current_user.projects.each do |project| %>
+    <tr>
+      <td><%=h project.name %></td>
+      <% 7.times do |i| %>
+        <td><%= text_field_tag :value => 0 %></td>
+      <% end %>
+    </tr>
+  <% end %>
 <% end %>
 </table>
 
-<br />
-
-<%= link_to 'New entry', new_entry_path %>
