@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
       end
     end
   end
+  has_many :comments, :foreign_key => 'author_id'
+
   acts_as_authentic
   
   def admin?
