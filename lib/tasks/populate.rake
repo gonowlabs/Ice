@@ -1,3 +1,7 @@
+def random_hour
+  rand(10) + 1
+end
+
 namespace :db do
   desc "Populate database"
   task :populate => :environment do
@@ -7,20 +11,30 @@ namespace :db do
     contract1 = Contract.create! :name => "Contract1"
     contract2 = Contract.create! :name => "Contract2"
 
-    project11 = contract1.projects.create! :name => "Project1 1"
-    project12 = contract1.projects.create! :name => "Project1 2"
-    project21 = contract1.projects.create! :name => "Project2 1"
-    project22 = contract1.projects.create! :name => "Project2 2"
+    project1 = contract1.projects.create! :name => "Project 1"
+    project2 = contract1.projects.create! :name => "Project 2"
+    project3 = contract1.projects.create! :name => "Project 3"
+    project4 = contract1.projects.create! :name => "Project 4"
 
     User.destroy_all
-    user_a = User.create! :name => "Diego Carrion"  , :email => 'dcrec1@gonow.com.br'     , :login => 'dcrec1', :password => 'teste123', :password_confirmation => 'teste123'
-    user_b = User.create! :name => "Rafael Rosa"    , :email => 'rafaelrosafu@gmail.com'  , :login => 'rafaelrosafu', :password => 'teste123', :password_confirmation => 'teste123'
-    user_c = User.create! :name => "Ricardo Almeida", :email => 'ricardoalmeida@gmail.com', :login => 'ricardoalmeida', :password => 'teste123', :password_confirmation => 'teste123'
+    user1 = User.create! :name => "Diego Carrion"  , :email => 'dcrec1@gonow.com.br'     , :login => 'dcrec1', :password => 'teste123', :password_confirmation => 'teste123'
+    user2 = User.create! :name => "Rafael Rosa"    , :email => 'rafaelrosafu@gmail.com'  , :login => 'rafaelrosafu', :password => 'teste123', :password_confirmation => 'teste123'
+    user3 = User.create! :name => "Ricardo Almeida", :email => 'ricardoalmeida@gmail.com', :login => 'ricardoalmeida', :password => 'teste123', :password_confirmation => 'teste123'
 
-    project11.users << user_a
-    project12.users << user_b
-    project21.users << user_a
-    project22.users << user_c
-    project22.users << user_a
+    project1.users << user1
+    project2.users << user2
+    project3.users << user1
+    project4.users << user3
+    project4.users << user1
+    
+    Entry.delete_all
+    (Date.today - 10).upto(Date.today) do |date|
+      (1..3).each do |i|
+        Entry.create! :project => eval("project#{rand(4) + 1}"), 
+                      :hours => random_hour, 
+                      :user => eval("user#{i}"),
+                      :date => date
+      end
+    end
   end
 end
