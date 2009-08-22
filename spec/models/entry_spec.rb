@@ -25,6 +25,14 @@ describe Entry do
       cost = Entry.cost_by_project project_id, :from => @begin_date, :to => @finish_date
       cost.should eql(result)
     end
+    
+    it "should return the cost for a user in a period" do
+      user_id = 10
+      Entry.stub!(:find_all_by_user_id).with(user_id, :conditions => ['date BETWEEN ? AND ?', @begin_date, @finish_date]).and_return(@entries)
+      result = @entries.map { |entry| entry.hours }.reduce { |a, b| a + b }
+      cost = Entry.cost_by_user user_id, :from => @begin_date, :to => @finish_date
+      cost.should eql(result)
+    end
   end
 
   before :all do

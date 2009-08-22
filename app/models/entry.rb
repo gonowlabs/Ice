@@ -21,4 +21,10 @@ class Entry < ActiveRecord::Base
       entry.hours
     end.reduce { |a, b| a + b }
   end
+  
+  def self.cost_by_user(id, opts)
+    find_all_by_user_id(id, :conditions => ['date BETWEEN ? AND ?', opts[:from], opts[:to]]).map do |entry|
+      entry.hours
+    end.reduce { |a, b| a + b }
+  end
 end
