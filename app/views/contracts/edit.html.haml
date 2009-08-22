@@ -1,7 +1,8 @@
 %h1
   = I18n.t :contract
 - semantic_form_for @contract do |form|
-  = form.inputs :name, :projects
+  = form.input :name
   = form.buttons
+= render :partial => 'projects/list', :locals => {:contract => @contract}
 
 = link_to I18n.t(:back), contracts_path

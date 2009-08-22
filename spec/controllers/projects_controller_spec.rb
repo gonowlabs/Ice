@@ -4,5 +4,5 @@ describe ProjectsController do
   before :each do
     login
   end
-  should_behave_like_resource
+  should_behave_like_resource :in => :contract
 end

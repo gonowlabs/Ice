@@ -20,4 +20,11 @@ describe User do
   it "should identify an user isnt a manager" do
     User.new.manager?.should be_false
   end
+  
+  it "should return entries for a week and a project" do
+    user = Factory(:user_a)
+    project = Factory(:project_1)
+    user.entries.for_week_and_project(Date.today, project)
+    Entry.find_by_user_id_and_project_id_and_date(user.id, project.id, Date.today).should_not be_nil
+  end
 end

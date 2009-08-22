@@ -27,7 +27,7 @@ Factory.define :user_b, :class => User do |u|
   u.password_confirmation "teste124"
 end
 
-Factory.define :entry_1, :class => Entry do |e|
+Factory.define :entry, :class => Entry do |e|
   e.date Date.today
   e.hours rand(12)
 end

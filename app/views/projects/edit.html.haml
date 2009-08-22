@@ -1,0 +1,4 @@
+%h1 Editing project
+= render :partial => 'form', :locals => {:project => @project}
+
+= link_to I18n.t(:back), contract_projects_path(@project.contract)
