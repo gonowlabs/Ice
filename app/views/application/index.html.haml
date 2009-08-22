@@ -1,0 +1,32 @@
+%h1 Listing entries
+
+= @reference_date.monday.to_s + ' - ' + (@reference_date.monday + 7).to_s
+
+%table
+  - hours_per_day = Array.new(7,0)
+  %tr
+    %th{:class => "project"} Project
+    - dates = localized_week_dates(@reference_date)
+    - localized_week_days.each_with_index do |day, i|
+      %th= day
+    %th Total
+  - current_user.projects.each do |project|
+    - project_total = 0
+    %tr{:class => cycle('pair', 'odd')}
+      %td{:class => "projects"}
+        =h project.name
+      - project.entries.for_week_and_user(@reference_date, current_user).each_with_index do |entry, week_day|
+        %td
+          = text_field_tag "entry_#{entry.to_param}", entry.hours
+          = observe_field "entry_#{entry.to_param}", :url => entry_path(entry), :frequency => 0.25, :method => 'put', :with => "'entry[hours]=' + value"
+
+          - hours_per_day[week_day] += entry.hours
+          - project_total += entry.hours
+      %td= project_total
+  %tr
+    %td{:class => "total_hours"} Total
+    - hours_per_day.each do |day_total|
+      %td{:class => "total_hour"}
+        = day_total
+    %td{:class => "total_hour"}
+      = hours_per_day.sum
