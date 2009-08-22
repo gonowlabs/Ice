@@ -1,0 +1,24 @@
+%h1 Listing entries
+%h2
+  User
+  = current_user.name
+%table
+  %tr
+    %th Project
+    %th Monday
+    %th Thuesday
+    %th Wednesday
+    %th Thursday
+    %th Friday
+    %th Saturday
+    %th Sunday
+= form_tag do |form|
+  %table
+    - current_user.projects.each do |project|
+      %tr
+        %td
+          =h project.name
+      %tr
+        - 7.times do |i|
+          %td
+            = text_field_tag :value => 0
