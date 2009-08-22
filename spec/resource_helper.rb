@@ -252,4 +252,3 @@ def should_behave_like_resource(opts = {})
     end if formats_include_html(opts)
   end if should_show(opts, :destroy)
 end
-
