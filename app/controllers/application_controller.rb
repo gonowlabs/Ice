@@ -10,4 +10,9 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
   before_filter :require_user
+  
+  def index
+    render 'admin' if current_user.admin?
+    render 'manager' if current_user.manager?
+  end
 end

@@ -5,6 +5,8 @@ require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_
 require 'spec/autorun'
 require 'spec/rails'
 
+require 'ruby-debug'
+
 require File.dirname(__FILE__) + "/resource_helper.rb"
 
 Spec::Runner.configure do |config|
@@ -17,10 +19,13 @@ Spec::Runner.configure do |config|
 end
 
 def login
-  controller.stub!(:require_user).and_return(nil)
+  controller.stub!(:current_user).and_return(User.new)
 end
 
 def login_admin
-  login
-  controller.stub!(:require_admin).and_return(true)
+  controller.stub!(:current_user).and_return(User.new(:role => User::ADMIN))
+end
+
+def login_manager
+  controller.stub!(:current_user).and_return(User.new(:role => User::MANAGER))
 end
