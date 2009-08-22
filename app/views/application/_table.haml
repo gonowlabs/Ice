@@ -1,0 +1,5 @@
+%table
+  = render :partial => 'table_header', :locals => {:title => title}
+  - hours_per_day = Array.new(7,0)
+  = yield hours_per_day
+  = render :partial => 'table_footer', :locals => {:hours => hours_per_day}

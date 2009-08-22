@@ -30,10 +30,13 @@ class ApplicationController < ActionController::Base
   end
   
   def render_manager
+    @projects = Project.find_all_by_manager_id(current_user.id)
+    @reference_date = Date.today
     render 'manager'
   end
   
   def render_worker
+    @projects = current_user.projects
     @reference_date = Date.today
   end
 end

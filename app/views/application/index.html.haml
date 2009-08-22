@@ -1,27 +1,15 @@
-%h2
-  = @reference_date.monday.to_s + ' - ' + (@reference_date.monday + 7).to_s
-%table
-  - hours_per_day = Array.new(7,0)
-  %tr
-    %th.project Project
-    - localized_week_days.each do |day|
-      %th= day
-    %th Total
-  - current_user.projects.each do |project|
-    - project_total = 0
+= render :partial => 'header', :locals => {:date => @reference_date}
+- render :layout => 'table', :locals => {:title => 'Project'} do |hours_per_day|
+  - for project in @projects
+    - row_total = 0
     %tr{:class => cycle('pair', 'odd')}
-      %td.projects
+      %td.name
         =h project.name
       - project.entries.for_week_and_user(@reference_date, current_user).each_with_index do |entry, week_day|
         %td
-          = text_field_tag "entry_#{entry.to_param}", entry.hours
-          = observe_field "entry_#{entry.to_param}", :url => entry_path(entry), :frequency => 0.25, :method => 'put', :with => "'hours=' + value"
+          = text_field_tag "entry_#{entry.id}", entry.hours
+          = observe_field "entry_#{entry.id}", :url => entry_path(entry), :frequency => 0.25, :method => 'put', :with => "'hours=' + value"
 
           - hours_per_day[week_day] += entry.hours
-          - project_total += entry.hours
-      %td= project_total
-  %tr
-    %td.total_hours Total
-    - hours_per_day.each do |day_total|
-      %td.total_hour= day_total
-    %td.total_hour= hours_per_day.sum
+          - row_total += entry.hours
+      %td= row_total
