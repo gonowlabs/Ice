@@ -14,9 +14,9 @@
       %th Saturday
       %th Sunday
     - current_user.projects.each do |project|
-      %tr
-        %td{:class => "projects odd"}
+      %tr{:class => cycle('pair', 'odd')}
+        %td{:class => "projects"}
           =h project.name
         - 7.times do |i|
-          %td{:class => "odd"}
+          %td
             = text_field_tag :value => 0
