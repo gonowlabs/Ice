@@ -4,6 +4,8 @@ class Entry < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :project
+  has_many :comments
+
   validates_presence_of :user, :project, :date
   validates_uniqueness_of :date, :scope => [:user_id, :project_id]
   
