@@ -1,0 +1,861 @@
+From 523a181edbc096ed980ef0435c654b02cd999dbd Mon Sep 17 00:00:00 2001
+From: Diego Carrion <dc.rec1@gmail.com>
+Date: Fri, 21 Aug 2009 22:46:18 -0300
+Subject: user signup
+
+---
+ app/controllers/application_controller.rb         |    3 +
+ app/controllers/authenticated_controller.rb       |    3 -
+ app/controllers/user_sessions_controller.rb       |   16 +--
+ app/controllers/users_controller.rb               |   89 +-------
+ app/models/user.rb                                |    3 +-
+ app/views/user_sessions/new.html.haml             |    3 +
+ app/views/users/new.html.erb                      |   39 ----
+ app/views/users/new.html.haml                     |    3 +
+ config/environments/development.rb                |   11 +-
+ config/routes.rb                                  |    7 +-
+ spec/controllers/application_controller_spec.rb   |    5 +
+ spec/controllers/authenticated_controller_spec.rb |    7 -
+ spec/controllers/user_sessions_controller_spec.rb |   44 +----
+ spec/controllers/users_controller_spec.rb         |  130 +----------
+ spec/models/user_spec.rb                          |   18 +--
+ spec/resource_helper.rb                           |  254 +++++++++++++++++++++
+ spec/spec_helper.rb                               |   38 +---
+ 17 files changed, 304 insertions(+), 369 deletions(-)
+ delete mode 100644 app/controllers/authenticated_controller.rb
+ create mode 100644 app/views/user_sessions/new.html.haml
+ delete mode 100644 app/views/users/new.html.erb
+ create mode 100644 app/views/users/new.html.haml
+ create mode 100644 spec/controllers/application_controller_spec.rb
+ delete mode 100644 spec/controllers/authenticated_controller_spec.rb
+ create mode 100644 spec/resource_helper.rb
+
+diff --git a/app/controllers/application_controller.rb b/app/controllers/application_controller.rb
+index 6635a3f487ad65fe47b2f25395016f2c8666819c..ce1c30b3cce50d0c52323d587e6c189b18cf7e6e 100644
+--- a/app/controllers/application_controller.rb
++++ b/app/controllers/application_controller.rb
+@@ -2,9 +2,12 @@
+ # Likewise, all the methods added will be available for all controllers.
+ 
+ class ApplicationController < ActionController::Base
++  include AuthlogicHelper
++  
+   helper :all # include all helpers, all the time
+   protect_from_forgery # See ActionController::RequestForgeryProtection for details
+ 
+   # Scrub sensitive parameters from your log
+   # filter_parameter_logging :password
++  before_filter :require_user
+ end
+diff --git a/app/controllers/authenticated_controller.rb b/app/controllers/authenticated_controller.rb
+deleted file mode 100644
+index 326e67b157eaccf57e7909c67b0f44c89d472601..0000000000000000000000000000000000000000
+--- a/app/controllers/authenticated_controller.rb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-class AuthenticatedController < ApplicationController
+-  include AuthlogicHelper
+-end
+\ No newline at end of file
+diff --git a/app/controllers/user_sessions_controller.rb b/app/controllers/user_sessions_controller.rb
+index b48be16423c3ce3a26f2a9b367dcd2d2f4ef18d3..ff746efd7b8e3c275b525a16f04506a0d83407d9 100644
+--- a/app/controllers/user_sessions_controller.rb
++++ b/app/controllers/user_sessions_controller.rb
+@@ -1,17 +1,5 @@
+-class UserSessionsController < AuthenticatedController
+-  def new
+-    @user_session = UserSession.new
+-  end
+-  
+-  def create
+-    @user_session = UserSession.new(params[:user_session])
+-    if @user_session.save
+-      flash[:notice] = I18n.t :login_successful
+-      redirect_back_or_default home_path
+-    else
+-      render :new
+-    end
+-  end
++class UserSessionsController < InheritedResources::Base
++  skip_before_filter :require_user, :only => [:new, :create]
+   
+   def destroy
+     current_user_session.destroy
+diff --git a/app/controllers/users_controller.rb b/app/controllers/users_controller.rb
+index ba76d2bffb1431a51f3100032c1a2e1926ecf484..7a3bd5f2a6c2caf1172d097dbd0909ea4f747acf 100644
+--- a/app/controllers/users_controller.rb
++++ b/app/controllers/users_controller.rb
+@@ -1,85 +1,4 @@
+-class UsersController < ApplicationController
+-  # GET /users
+-  # GET /users.xml
+-  def index
+-    @users = User.all
+-
+-    respond_to do |format|
+-      format.html # index.html.erb
+-      format.xml  { render :xml => @users }
+-    end
+-  end
+-
+-  # GET /users/1
+-  # GET /users/1.xml
+-  def show
+-    @user = User.find(params[:id])
+-
+-    respond_to do |format|
+-      format.html # show.html.erb
+-      format.xml  { render :xml => @user }
+-    end
+-  end
+-
+-  # GET /users/new
+-  # GET /users/new.xml
+-  def new
+-    @user = User.new
+-
+-    respond_to do |format|
+-      format.html # new.html.erb
+-      format.xml  { render :xml => @user }
+-    end
+-  end
+-
+-  # GET /users/1/edit
+-  def edit
+-    @user = User.find(params[:id])
+-  end
+-
+-  # POST /users
+-  # POST /users.xml
+-  def create
+-    @user = User.new(params[:user])
+-
+-    respond_to do |format|
+-      if @user.save
+-        flash[:notice] = 'User was successfully created.'
+-        format.html { redirect_to(@user) }
+-        format.xml  { render :xml => @user, :status => :created, :location => @user }
+-      else
+-        format.html { render :action => "new" }
+-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+-      end
+-    end
+-  end
+-
+-  # PUT /users/1
+-  # PUT /users/1.xml
+-  def update
+-    @user = User.find(params[:id])
+-
+-    respond_to do |format|
+-      if @user.update_attributes(params[:user])
+-        flash[:notice] = 'User was successfully updated.'
+-        format.html { redirect_to(@user) }
+-        format.xml  { head :ok }
+-      else
+-        format.html { render :action => "edit" }
+-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+-      end
+-    end
+-  end
+-
+-  # DELETE /users/1
+-  # DELETE /users/1.xml
+-  def destroy
+-    @user = User.find(params[:id])
+-    @user.destroy
+-
+-    respond_to do |format|
+-      format.html { redirect_to(users_url) }
+-      format.xml  { head :ok }
+-    end
+-  end
+-end
++class UsersController < InheritedResources::Base
++  respond_to :html, :xml, :json
++  skip_before_filter :require_user, :on => [:new, :create]
++end
+\ No newline at end of file
+diff --git a/app/models/user.rb b/app/models/user.rb
+index 4a57cf079beb30714a0a77c1fc7e9cab8e144483..c043f964633b90e20a84a6873a5cb234cb15f0a3 100644
+--- a/app/models/user.rb
++++ b/app/models/user.rb
+@@ -1,2 +1,3 @@
+ class User < ActiveRecord::Base
+-end
++  acts_as_authentic
++end
+\ No newline at end of file
+diff --git a/app/views/user_sessions/new.html.haml b/app/views/user_sessions/new.html.haml
+new file mode 100644
+index 0000000000000000000000000000000000000000..2841bc290accd508649e7d74fabe87823e289670
+--- /dev/null
++++ b/app/views/user_sessions/new.html.haml
+@@ -0,0 +1,3 @@
++- semantic_form_for @user_session do |form|
++  = form.inputs :login, :password
++  = form.buttons
+\ No newline at end of file
+diff --git a/app/views/users/new.html.erb b/app/views/users/new.html.erb
+deleted file mode 100644
+index ceb7b81bd54ed986d36a225fe815fc258825b711..0000000000000000000000000000000000000000
+--- a/app/views/users/new.html.erb
++++ /dev/null
+@@ -1,39 +0,0 @@
+-<h1>New user</h1>
+-
+-<% form_for(@user) do |f| %>
+-  <%= f.error_messages %>
+-
+-  <p>
+-    <%= f.label :login %><br />
+-    <%= f.text_field :login %>
+-  </p>
+-  <p>
+-    <%= f.label :email %><br />
+-    <%= f.text_field :email %>
+-  </p>
+-  <p>
+-    <%= f.label :crypted_password %><br />
+-    <%= f.text_field :crypted_password %>
+-  </p>
+-  <p>
+-    <%= f.label :password_salt %><br />
+-    <%= f.text_field :password_salt %>
+-  </p>
+-  <p>
+-    <%= f.label :persistence_token %><br />
+-    <%= f.text_field :persistence_token %>
+-  </p>
+-  <p>
+-    <%= f.label :single_access_token %><br />
+-    <%= f.text_field :single_access_token %>
+-  </p>
+-  <p>
+-    <%= f.label :perishable_token %><br />
+-    <%= f.text_field :perishable_token %>
+-  </p>
+-  <p>
+-    <%= f.submit 'Create' %>
+-  </p>
+-<% end %>
+-
+-<%= link_to 'Back', users_path %>
+\ No newline at end of file
+diff --git a/app/views/users/new.html.haml b/app/views/users/new.html.haml
+new file mode 100644
+index 0000000000000000000000000000000000000000..badeb9fd8a58fddd052c343ab687df72f84d1977
+--- /dev/null
++++ b/app/views/users/new.html.haml
+@@ -0,0 +1,3 @@
++- semantic_form_for @user do |form|
++  = form.inputs :login, :email, :password, :password_confirmation
++  = form.buttons
+\ No newline at end of file
+diff --git a/config/environments/development.rb b/config/environments/development.rb
+index 85c9a6080ea865b51fee9a43e23a6969d709ffb4..bcc2cf6efee0dd6aa6b609b462c98e8d8f957aaa 100644
+--- a/config/environments/development.rb
++++ b/config/environments/development.rb
+@@ -14,4 +14,13 @@ config.action_view.debug_rjs                         = true
+ config.action_controller.perform_caching             = false
+ 
+ # Don't care if the mailer can't send
+-config.action_mailer.raise_delivery_errors = false
+\ No newline at end of file
++config.action_mailer.raise_delivery_errors = false
++
++ActionMailer::Base.smtp_settings = {
++  :address        => "smtp.gmail.com",
++  :port           => 587,
++  :domain         => "iceproject.com",
++  :authentication => :plain,
++  :user_name      => "gonowlabs@gmail.com",
++  :password       => "gandra123"
++}
+\ No newline at end of file
+diff --git a/config/routes.rb b/config/routes.rb
+index c188b122e09a995e4b712c74a8aae5f39cd8d74b..1da394a952909d35f8f79f54e86f71583f3a9a12 100644
+--- a/config/routes.rb
++++ b/config/routes.rb
+@@ -1,10 +1,9 @@
+ ActionController::Routing::Routes.draw do |map|
+   map.root :controller => 'application'
+ 
+-  map.home '/home', :controller => 'application', :action => 'home'
+-
+-  map.resource :user_session
+-
++  map.signup '/signup', :controller => 'users', :action => 'new'
++  map.login '/login', :controller => "user_sessions", :action => 'new'
++  map.resource :user_sessions
+   map.resources :users
+ 
+   # The priority is based upon order of creation: first created -> highest priority.
+diff --git a/spec/controllers/application_controller_spec.rb b/spec/controllers/application_controller_spec.rb
+new file mode 100644
+index 0000000000000000000000000000000000000000..768d1df1e4ee42dc172ba3e77701477ba9251abe
+--- /dev/null
++++ b/spec/controllers/application_controller_spec.rb
+@@ -0,0 +1,5 @@
++require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
++
++describe ApplicationController do
++  should_have_before_filter :require_user, :formats => [:html]
++end
+\ No newline at end of file
+diff --git a/spec/controllers/authenticated_controller_spec.rb b/spec/controllers/authenticated_controller_spec.rb
+deleted file mode 100644
+index bb15ef860c3a0588425a67e16e88056fb3656fe1..0000000000000000000000000000000000000000
+--- a/spec/controllers/authenticated_controller_spec.rb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+-
+-describe AuthenticatedController do
+-  it "deve incluir os helpers do Authlogic" do
+-    AuthenticatedController.should include(AuthlogicHelper)
+-  end
+-end
+\ No newline at end of file
+diff --git a/spec/controllers/user_sessions_controller_spec.rb b/spec/controllers/user_sessions_controller_spec.rb
+index b332a3f8f1476fd5840ead07da72889fe91f02c3..44e2ddc2f7888a59418bce08b911a36a85c1d40b 100644
+--- a/spec/controllers/user_sessions_controller_spec.rb
++++ b/spec/controllers/user_sessions_controller_spec.rb
+@@ -1,47 +1,9 @@
+-describe UserSessionsController do
+-  it "deve herdar de AuthenticatedController" do
+-    UserSessionsController.superclass.should eql(AuthenticatedController)
+-  end
+-
+-  mock_models :user_session
++require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+ 
+-  describe :get => :new do
+-    expects :new, :on => UserSession, :returns => mock_user_session
+-    should_assign_to :user_session, :with => mock_user_session
+-  end
+-  
+-  params = { 'login' => "joao", 'password' => "abc123", 'password_confirmation' => "abc123" }
+-  describe :post => :create, :user_session => params do
+-    expects :new, :on => UserSession, :with => params, :returns => mock_user_session
+-    expects :save, :on => mock_user_session, :returns => false
+-    
+-    should_assign_to :user_session, :with => mock_user_session
+-    should_render_template :new
+-  end
+-  
+-  context "respondendo para POST create após logar o usuário" do 
+-    before :each do
+-      UserSession.stub(:new).and_return(mock_user_session)
+-      mock_user_session.stub(:save).and_return(true)
+-      controller.stub!(:render)
+-      @msg = "rqwfwefwegfw"
+-      I18n.stub(:t).with(:login_successful).and_return(@msg)
+-    end
+-  
+-    it "deve enviar ele para a última pagina se existir ou a home" do
+-      controller.should_receive(:redirect_back_or_default).with(home_path)
+-      post :create
+-    end
+-    
+-    it "deve avisar que o usuario foi corretamente logado" do
+-      controller.stub(:redirect_back_or_default)
+-      post :create
+-      flash[:notice].should eql(@msg)
+-    end 
+-  end
+-  
++describe UserSessionsController do
+   context "respondendo para DELETE destroy" do 
+     before :each do
++      controller.stub!(:require_user).and_return(nil)
+       @user_session = mock(UserSession, :destroy => nil)
+       controller.stub(:current_user_session).and_return(@user_session)
+       controller.stub(:render)
+diff --git a/spec/controllers/users_controller_spec.rb b/spec/controllers/users_controller_spec.rb
+index e4b68d2e2b3b6aa762239967994aeee29313bbdb..a30ed1b2e944c1f7b88635af29c5890e8ca87f08 100644
+--- a/spec/controllers/users_controller_spec.rb
++++ b/spec/controllers/users_controller_spec.rb
+@@ -1,131 +1,9 @@
+ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+ 
+ describe UsersController do
+-
+-  def mock_user(stubs={})
+-    @mock_user ||= mock_model(User, stubs)
+-  end
+-  
+-  describe "GET index" do
+-    it "assigns all users as @users" do
+-      User.stub!(:find).with(:all).and_return([mock_user])
+-      get :index
+-      assigns[:users].should == [mock_user]
+-    end
+-  end
+-
+-  describe "GET show" do
+-    it "assigns the requested user as @user" do
+-      User.stub!(:find).with("37").and_return(mock_user)
+-      get :show, :id => "37"
+-      assigns[:user].should equal(mock_user)
+-    end
+-  end
+-
+-  describe "GET new" do
+-    it "assigns a new user as @user" do
+-      User.stub!(:new).and_return(mock_user)
+-      get :new
+-      assigns[:user].should equal(mock_user)
+-    end
+-  end
+-
+-  describe "GET edit" do
+-    it "assigns the requested user as @user" do
+-      User.stub!(:find).with("37").and_return(mock_user)
+-      get :edit, :id => "37"
+-      assigns[:user].should equal(mock_user)
+-    end
+-  end
+-
+-  describe "POST create" do
+-    
+-    describe "with valid params" do
+-      it "assigns a newly created user as @user" do
+-        User.stub!(:new).with({'these' => 'params'}).and_return(mock_user(:save => true))
+-        post :create, :user => {:these => 'params'}
+-        assigns[:user].should equal(mock_user)
+-      end
+-
+-      it "redirects to the created user" do
+-        User.stub!(:new).and_return(mock_user(:save => true))
+-        post :create, :user => {}
+-        response.should redirect_to(user_url(mock_user))
+-      end
+-    end
+-    
+-    describe "with invalid params" do
+-      it "assigns a newly created but unsaved user as @user" do
+-        User.stub!(:new).with({'these' => 'params'}).and_return(mock_user(:save => false))
+-        post :create, :user => {:these => 'params'}
+-        assigns[:user].should equal(mock_user)
+-      end
+-
+-      it "re-renders the 'new' template" do
+-        User.stub!(:new).and_return(mock_user(:save => false))
+-        post :create, :user => {}
+-        response.should render_template('new')
+-      end
+-    end
+-    
++  before :each do 
++    login
+   end
+-
+-  describe "PUT update" do
+-    
+-    describe "with valid params" do
+-      it "updates the requested user" do
+-        User.should_receive(:find).with("37").and_return(mock_user)
+-        mock_user.should_receive(:update_attributes).with({'these' => 'params'})
+-        put :update, :id => "37", :user => {:these => 'params'}
+-      end
+-
+-      it "assigns the requested user as @user" do
+-        User.stub!(:find).and_return(mock_user(:update_attributes => true))
+-        put :update, :id => "1"
+-        assigns[:user].should equal(mock_user)
+-      end
+-
+-      it "redirects to the user" do
+-        User.stub!(:find).and_return(mock_user(:update_attributes => true))
+-        put :update, :id => "1"
+-        response.should redirect_to(user_url(mock_user))
+-      end
+-    end
+-    
+-    describe "with invalid params" do
+-      it "updates the requested user" do
+-        User.should_receive(:find).with("37").and_return(mock_user)
+-        mock_user.should_receive(:update_attributes).with({'these' => 'params'})
+-        put :update, :id => "37", :user => {:these => 'params'}
+-      end
+-
+-      it "assigns the user as @user" do
+-        User.stub!(:find).and_return(mock_user(:update_attributes => false))
+-        put :update, :id => "1"
+-        assigns[:user].should equal(mock_user)
+-      end
+-
+-      it "re-renders the 'edit' template" do
+-        User.stub!(:find).and_return(mock_user(:update_attributes => false))
+-        put :update, :id => "1"
+-        response.should render_template('edit')
+-      end
+-    end
+-    
+-  end
+-
+-  describe "DELETE destroy" do
+-    it "destroys the requested user" do
+-      User.should_receive(:find).with("37").and_return(mock_user)
+-      mock_user.should_receive(:destroy)
+-      delete :destroy, :id => "37"
+-    end
+   
+-    it "redirects to the users list" do
+-      User.stub!(:find).and_return(mock_user(:destroy => true))
+-      delete :destroy, :id => "1"
+-      response.should redirect_to(users_url)
+-    end
+-  end
+-
+-end
++  should_behave_like_resource
++end
+\ No newline at end of file
+diff --git a/spec/models/user_spec.rb b/spec/models/user_spec.rb
+index 8ea13130a3375f024b6c492a5ddad4d6af272db0..33dfc4cb5533f0060750bc32109f51515d5eee49 100644
+--- a/spec/models/user_spec.rb
++++ b/spec/models/user_spec.rb
+@@ -1,19 +1,5 @@
+ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+ 
+ describe User do
+-  before(:each) do
+-    @valid_attributes = {
+-      :login => "value for login",
+-      :email => "value for email",
+-      :crypted_password => "value for crypted_password",
+-      :password_salt => "value for password_salt",
+-      :persistence_token => "value for persistence_token",
+-      :single_access_token => "value for single_access_token",
+-      :perishable_token => "value for perishable_token"
+-    }
+-  end
+-
+-  it "should create a new instance given valid attributes" do
+-    User.create!(@valid_attributes)
+-  end
+-end
++  should_act_as_authentic
++end
+\ No newline at end of file
+diff --git a/spec/resource_helper.rb b/spec/resource_helper.rb
+new file mode 100644
+index 0000000000000000000000000000000000000000..3a232ace01aa61c2e87a29f78c0685b4ee56961b
+--- /dev/null
++++ b/spec/resource_helper.rb
+@@ -0,0 +1,254 @@
++def should_behave_like_resource(opts = {})
++
++  before :each do
++    @opts = opts
++    controller.stub!(:require_owner)
++  end
++
++  def class_for(str)
++    str.capitalize.constantize
++  end
++
++  def clazz
++    described_class.to_s.gsub("Controller", '').singularize.constantize
++  end
++
++  def model
++    clazz.to_s.underscore
++  end
++
++  def models
++    model.pluralize
++  end
++
++  def mocked_model(stubs={})
++    @mock ||= mock_model(clazz, stubs)
++    @mock.stub!(:to_json).and_return("{'a' => 'b'}")
++    @mock.stub!(:to_xml).and_return("<a>b</a>")
++    @mock
++  end
++
++  def mocked_model_id
++    mocked_model.id.to_s
++  end
++
++  def model_url
++    url, params = ""
++    for i in -1..(parents.size - 1)
++      url, params = "#{parent_name(i)}_#{url}", ",mocked_parent(#{i})#{params}"
++    end
++    eval "#{url}url(#{params[1, params.size]})"
++  end
++
++  def models_url
++    url, params = "#{models}_url", ""
++    for i in 0..(parents.size - 1)
++      url, params = "#{parent_name(i)}_#{url}", ",mocked_parent(#{i})#{params}"
++    end
++    eval "#{url}(#{params[1, params.size]})"
++  end
++
++  def parents
++    [@opts[:in]].flatten.compact
++  end
++
++  def parent_name(i)
++    return model if i == -1
++    parents[parents.size - 1 - i].to_s.singularize
++  end
++
++  def parent_class(i)
++    parent_name(i).classify.constantize
++  end
++
++  def parent_id(i)
++    return mocked_model_id if i == -1
++    @parents_id = [] if @parents_id.nil?
++    @parents_id[i] ||= rand(100).to_s
++  end
++
++  def mocked_parent(i)
++    return mocked_model if i == -1
++    @mocked_parents = [] if @mocked_parents.nil?
++    return @mocked_parents[i] unless @mocked_parents[i].nil?
++    @mocked_parents[i] = mock_model(parent_class(i))
++    @mocked_parents[i].stub!(parent_name(i - 1).pluralize).and_return(mocked_childs(i))
++    @mocked_parents[i]
++  end
++
++  def mocked_childs(i)
++    collection = [mocked_parent(i - 1)]
++    collection.stub!(:find).with(parent_id(i - 1)).and_return(collection.first)
++    collection.stub!(:find).with(:all).and_return(collection)
++    collection.stub!(:build).and_return(collection.first)
++    collection
++  end
++  
++  def param
++    @opts[:param]
++  end
++  
++  def param_finder
++    param.nil? ? :find :"find_by_#{param}"
++  end
++
++  def parameters
++    params = {}
++    for i in 0..(parents.size - 1)
++      id = parent_id(i)
++      parent_class(i).stub!(param_finder).with(id).and_return(mocked_parent(i))
++      params[param || "#{parent_name(i)}_id"] = id
++    end
++    params
++  end
++
++  def nested?
++    parents.size > 0
++  end
++
++  def should_show(opts, action)
++    except = opts[:except]
++    return false if (!except.nil? and [except].flatten.include?(action))
++    actions = opts[:actions]
++    actions.nil? or [actions].flatten.include?(action)
++  end
++  
++  def formats_include_html(opts)
++    formats = opts[:formats]
++    formats.nil? or formats.include?(:html)
++  end
++
++  describe "GET index" do
++    it "assigns all #{models} as @#{models}" do
++      clazz.stub!(:find).with(:all).and_return([mocked_model])
++      get :index, parameters
++      assigns[models].should == [mocked_model]
++    end if formats_include_html(opts)
++  end if should_show(opts, :index)
++
++  describe "GET show" do
++    it "assigns the requested #{model} as @#{model}" do
++      clazz.stub!(:find).with(mocked_model_id).and_return(mocked_model)
++      get :show, {:id => mocked_model_id}.merge(parameters)
++      assigns[model].should equal(mocked_model)
++    end if formats_include_html(opts)
++
++    it "returns a #{model} as json" do
++      clazz.stub!(:find).with(mocked_model_id).and_return(mocked_model)
++      get :show, {:format => "json", :id => mocked_model_id}.merge(parameters)
++      response.body.should eql(mocked_model.to_json)
++    end
++
++    it "returns a #{model} as xml" do
++      clazz.stub!(:find).with(mocked_model_id).and_return(mocked_model)
++      get :show, {:format => "xml", :id => mocked_model_id}.merge(parameters)
++      response.body.should eql(mocked_model.to_xml)
++    end
++  end if should_show(opts, :show)
++
++  describe "GET new" do
++    it "assigns a new #{model} as @#{model}" do
++      clazz.stub!(:new).and_return(mocked_model)
++      get :new, parameters
++      assigns[model].should equal(mocked_model)
++    end if formats_include_html(opts)
++  end if should_show(opts, :new)
++
++  describe "GET edit" do
++    it "assigns the requested #{model} as @#{model}" do
++      clazz.stub!(:find).with(mocked_model_id).and_return(mocked_model)
++      get :edit, {:id => mocked_model_id}.merge(parameters)
++      assigns[model].should equal(mocked_model)
++    end if formats_include_html(opts)
++  end if should_show(opts, :edit)
++
++  describe "POST create" do
++
++    describe "with valid parameters" do
++      it "assigns a newly created #{model} as @#{model}" do
++        clazz.stub!(:new).with({'these' => 'parameters'}).and_return(mocked_model(:save => true))
++        post :create, {model => {:these => 'parameters'}}.merge(parameters)
++        assigns[model].should equal(mocked_model)
++      end if formats_include_html(opts)
++
++      it "redirects to the created #{model}" do
++        clazz.stub!(:new).and_return(mocked_model(:save => true))
++        post :create, {model => {}}.merge(parameters)
++        response.should redirect_to(model_url)
++      end if formats_include_html(opts)
++    end
++
++    describe "with invalid parameters" do
++      it "assigns a newly created but unsaved #{model} as @#{model}" do
++        clazz.stub!(:new).with({'these' => 'parameters'}).and_return(mocked_model(:save => false))
++        post :create, {model => {:these => 'parameters'}}.merge(parameters)
++        assigns[model].should equal(mocked_model)
++      end if formats_include_html(opts)
++
++      it "re-renders the 'new' template" do
++        clazz.stub!(:new).and_return(mocked_model(:save => false))
++        post :create, {model => {}}.merge(parameters)
++        response.should render_template('new')
++      end if formats_include_html(opts)
++    end
++
++  end if should_show(opts, :create)
++
++  describe "PUT update" do
++
++    describe "with valid parameters" do
++      it "updates the requested #{model}" do
++        clazz.should_receive(:find).with(mocked_model_id).and_return(mocked_model) unless nested?
++        mocked_model.should_receive(:update_attributes).with({'these' => 'parameters'})
++        put :update, {:id => mocked_model_id, model => {:these => 'parameters'}}.merge(parameters)
++      end if formats_include_html(opts)
++
++      it "assigns the requested #{model} as @#{model}" do
++        clazz.stub!(:find).and_return(mocked_model(:update_attributes => true))
++        put :update, {:id => mocked_model_id}.merge(parameters)
++        assigns[model].should equal(mocked_model)
++      end if formats_include_html(opts)
++
++      it "redirects to the #{model}" do
++        clazz.stub!(:find).and_return(mocked_model(:update_attributes => true))
++        put :update, {:id => mocked_model_id}.merge(parameters)
++        response.should redirect_to(model_url)
++      end unless (opts[:without].eql?('update.redirect') or !formats_include_html(opts))
++    end
++
++    describe "with invalid parameters" do
++      it "updates the requested #{model}" do
++        clazz.should_receive(:find).with(mocked_model_id).and_return(mocked_model) unless nested?
++        mocked_model.should_receive(:update_attributes).with({'these' => 'parameters'})
++        put :update, {:id => mocked_model_id, model => {:these => 'parameters'}}.merge(parameters)
++      end if formats_include_html(opts)
++
++      it "assigns the #{model} as @#{model}" do
++        clazz.stub!(:find).and_return(mocked_model(:update_attributes => false))
++        put :update, {:id => mocked_model_id}.merge(parameters)
++        assigns[model].should equal(mocked_model)
++      end if formats_include_html(opts)
++
++      it "re-renders the 'edit' template" do
++        clazz.stub!(:find).and_return(mocked_model(:update_attributes => false))
++        put :update, {:id => mocked_model_id}.merge(parameters)
++        response.should render_template('edit')
++      end if formats_include_html(opts)
++    end
++
++  end if should_show(opts, :update)
++
++  describe "DELETE destroy" do
++    it "destroys the requested #{model}" do
++      clazz.should_receive(:find).with(mocked_model_id).and_return(mocked_model) unless nested?
++      mocked_model.should_receive(:destroy)
++      delete :destroy, {:id => mocked_model_id}.merge(parameters)
++    end if formats_include_html(opts)
++
++    it "redirects to the #{models} list" do
++      clazz.stub!(:find).and_return(mocked_model(:destroy => true))
++      delete :destroy, {:id => mocked_model_id}.merge(parameters)
++      response.should redirect_to(models_url)
++    end if formats_include_html(opts)
++  end if should_show(opts, :destroy)
++end
+\ No newline at end of file
+diff --git a/spec/spec_helper.rb b/spec/spec_helper.rb
+index 0d1044604a0cf0e9fb26df770dea28a363e50399..17b8343c6ba7e3fb9ebb74cd7105270444a4d2f6 100644
+--- a/spec/spec_helper.rb
++++ b/spec/spec_helper.rb
+@@ -5,6 +5,8 @@ require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_
+ require 'spec/autorun'
+ require 'spec/rails'
+ 
++require File.dirname(__FILE__) + "/resource_helper.rb"
++
+ Spec::Runner.configure do |config|
+   # If you're not using ActiveRecord you should remove these
+   # lines, delete config/database.yml and disable :active_record
+@@ -12,36 +14,8 @@ Spec::Runner.configure do |config|
+   config.use_transactional_fixtures = true
+   config.use_instantiated_fixtures  = false
+   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
+-
+-  # == Fixtures
+-  #
+-  # You can declare fixtures for each example_group like this:
+-  #   describe "...." do
+-  #     fixtures :table_a, :table_b
+-  #
+-  # Alternatively, if you prefer to declare them only once, you can
+-  # do so right here. Just uncomment the next line and replace the fixture
+-  # names with your fixtures.
+-  #
+-  # config.global_fixtures = :table_a, :table_b
+-  #
+-  # If you declare global fixtures, be aware that they will be declared
+-  # for all of your examples, even those that don't use them.
+-  #
+-  # You can also declare which fixtures to use (for example fixtures for test/fixtures):
+-  #
+-  # config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
+-  #
+-  # == Mock Framework
+-  #
+-  # RSpec uses it's own mocking framework by default. If you prefer to
+-  # use mocha, flexmock or RR, uncomment the appropriate line:
+-  #
+-  # config.mock_with :mocha
+-  # config.mock_with :flexmock
+-  # config.mock_with :rr
+-  #
+-  # == Notes
+-  # 
+-  # For more information take a look at Spec::Runner::Configuration and Spec::Runner
+ end
++
++def login
++  controller.stub!(:require_user).and_return(nil)
++end
+\ No newline at end of file
+-- 
+1.5.5.3
+
