@@ -41,3 +41,7 @@ end
 def build_projects
   3.times.map {Project.new}
 end
+
+def build_entries
+  5.times.map {Entry.new(:hours => rand(10))}
+end
