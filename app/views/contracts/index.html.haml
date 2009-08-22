@@ -3,14 +3,22 @@
 -@contracts.each do |contract|
   %p
     = I18n.t :name
-    %br=h contract.name
-    %br= I18n.t :description
-    %br=h contract.description
-    %br= I18n.t :start_date
-    %br=h contract.start_date
-    %br= I18n.t :finish_date
-    %br=h contract.finish_date
-    %br= link_to I18n.t(:show), contract
+    %br
+    =h contract.name
+    %br
+    = I18n.t :description
+    %br
+    =h contract.description
+    %br
+    = I18n.t :start_date
+    %br
+    =h contract.start_date
+    %br
+    = I18n.t :finish_date
+    %br
+    =h contract.finish_date
+    %br
+    = link_to I18n.t(:show), contract
     = link_to I18n.t(:edit), edit_contract_path(contract)
     = link_to I18n.t(:destroy), contract, :confirm => 'Are you sure?', :method => :delete
 %p= link_to I18n.t(:contract_new), new_contract_path
