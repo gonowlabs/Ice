@@ -13,7 +13,8 @@
           %a{:href => root_path}
             ice project
         %h2
-          = current_user.name
-          [Sair]
+          - if current_user
+            = current_user.name
+            = link_to "[Sair]", logout_path
     %div#container
       = yield

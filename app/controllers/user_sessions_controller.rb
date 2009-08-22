@@ -3,7 +3,6 @@ class UserSessionsController < InheritedResources::Base
 
   def new
     @user_session = UserSession.new
-    render :layout => false
   end
 
   def create

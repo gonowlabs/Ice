@@ -8,15 +8,24 @@ class Entry < ActiveRecord::Base
   validates_uniqueness_of :date, :scope => [:user_id, :project_id]
   
   def self.cost_by_contract(id, opts)
-    sum(:hours, :joins => :project, 
-        :conditions => {:projects => {:contract_id => id}, :date => (opts[:from]..opts[:to]) })
+    sum_hours(opts, {:projects => {:contract_id => id}}, :joins => :project)
   end
   
   def self.cost_by_project(id, opts)
-    sum(:hours, :conditions => {:project_id => id, :date => (opts[:from]..opts[:to])})
+    sum_hours(opts, :project_id => id)
   end
   
   def self.cost_by_user(id, opts)
-    sum(:hours, :conditions => {:user_id => id, :date => (opts[:from]..opts[:to])})
+    sum_hours(opts, :user_id => id)
+  end
+  
+  private
+  
+  def self.sum_hours(opts, params, extras = {})
+    sum(:hours, conditions_with(opts, params).merge(extras))
+  end
+  
+  def self.conditions_with(opts, conditions)
+    {:conditions => conditions.merge(:date => (opts[:from]..opts[:to]), :status => APPROVED)}
   end
 end
