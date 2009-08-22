@@ -1,0 +1,58 @@
+--- !ruby/object:Gem::Specification 
+name: my_ldap_authenticator
+version: !ruby/object:Gem::Version 
+  version: 0.2.0
+platform: ruby
+authors: 
+- Diego Carrion
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2009-08-21 00:00:00 -03:00
+default_executable: 
+dependencies: []
+
+description: 
+email: dc.rec1@gmail.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: []
+
+files: 
+- lib/my_ldap.rb
+- lib/my_ldap_authenticator.rb
+- Rakefile
+- README.textile
+has_rdoc: true
+homepage: http://www.diegocarrion.com
+licenses: []
+
+post_install_message: 
+rdoc_options: []
+
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: my_ldap_authenticator
+rubygems_version: 1.3.4
+signing_key: 
+specification_version: 3
+summary: A simple authenticator for a simple LDAP servers
+test_files: []
+

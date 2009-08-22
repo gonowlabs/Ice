@@ -1,0 +1,19 @@
+development:
+  host: ad.gonow.intranet
+  base: DC=gonow,DC=intranet
+  search_key: sAMAccountName
+  
+test:
+  host: ad.gonow.intranet
+  base: DC=gonow,DC=intranet
+  search_key: sAMAccountName
+  
+staging:
+  host: ad.gonow.intranet
+  base: DC=gonow,DC=intranet
+  search_key: sAMAccountName
+    
+production:
+  host: ad.gonow.intranet
+  base: DC=gonow,DC=intranet
+  search_key: sAMAccountName
