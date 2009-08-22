@@ -106,4 +106,14 @@ describe AuthlogicHelper do
     redirect_back_or_default(uri)
     @session[:redirect_to].should be_nil
   end
+  
+  it "should require an user as admin" do
+    @current_user = mock(User, :admin? => true)
+    require_admin.should be_true
+  end
+  
+  it "should know an user is not admin" do
+    @current_user = mock(User, :admin? => false)
+    require_admin.should be_false
+  end
 end

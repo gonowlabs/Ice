@@ -19,3 +19,8 @@ end
 def login
   controller.stub!(:require_user).and_return(nil)
 end
+
+def login_admin
+  login
+  controller.stub!(:require_admin).and_return(true)
+end

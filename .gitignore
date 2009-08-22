@@ -3,3 +3,4 @@ log/*
 tmp/*
 db/*.sqlite3
 coverage
+.dotest
