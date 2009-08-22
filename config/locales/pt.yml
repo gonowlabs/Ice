@@ -8,6 +8,7 @@ pt:
   edit: "Editar"
   finish_date: "Date de termino"
   name: "nome"
+  save_hours: "Salvar horas"
   show: "Ver"
   start_date: "Data de início"
 ######################

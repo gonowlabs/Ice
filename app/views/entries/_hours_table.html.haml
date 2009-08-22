@@ -23,10 +23,10 @@
         %td
           = project_total
     %tr
-      %td Total
+      %td{:class => "total_hours"} Total
       - hours_per_day.each do |day_total|
-        %td
+        %td{:class => "total_hour"}
           = day_total
-      %td
+      %td{:class => "total_hour"}
         = hours_per_day.sum
-  = submit_tag "Save"
+  = submit_tag I18n.t(:save_hours), :class => "save_hours"
