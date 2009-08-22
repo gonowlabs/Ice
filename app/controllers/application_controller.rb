@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   before_filter :require_user
   
   def index
-    render :template => 'admin' if current_user.admin?
-    render :template => 'manager' if current_user.manager?
+    render 'admin' if current_user.admin?
+    render 'manager' if current_user.manager?
   end
 end
