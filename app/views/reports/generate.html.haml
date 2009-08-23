@@ -1,0 +1,15 @@
+%h1 Report
+%div
+  %h2 Filters
+%div
+  %table
+    %tr
+      %th
+      - columns = @report_data.values.map {|data| data.keys}.flatten.uniq
+      - columns.each do |column|
+        %th= column.to_s
+    - @report_data.each do |key, period_data|
+      %tr
+        %td= key
+        - period_data.each do |column, value|
+          %td= value

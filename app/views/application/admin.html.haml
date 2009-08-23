@@ -5,8 +5,8 @@
       %option{:value => ""}= "Contratos"
       - for contract in @contracts
         %option{:value => contract.id}= contract.name
-    %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "Data inicial", :class => "placeHolder datepicker"}
-    %input{:type => 'text', :name => 'to', :title => "Data final", :value => "Data final", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "#{l Date.today.monday}", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'to', :title => "Data final", :value => "#{l Date.today.sunday}", :class => "placeHolder datepicker"}
     %input{:type => 'submit', :value => '>'}
 %h2 Horas trabalhadas por projeto
 %form{:action => cost_by_project_path}
@@ -15,8 +15,8 @@
       %option{:value => ""}= "Projetos"
       - for project in projects_from(@contracts)
         %option{:value => project.id}= project.name
-    %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "Data inicial", :class => "placeHolder datepicker"}
-    %input{:type => 'text', :name => 'to', :title => "Data final", :value => "Data final", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "#{l Date.today.monday}", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'to', :title => "Data final", :value => "#{l Date.today.sunday}", :class => "placeHolder datepicker"}
     %input{:type => 'submit', :value => '>'}
 %h2 Horas trabalhadas por pessoa
 %form{:action => cost_by_user_path}
@@ -25,8 +25,8 @@
       %option{:value => ""}= "Pessoas"
       - for user in workers(@users)
         %option{:value => user.id}= user.name
-    %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "Data inicial", :class => "placeHolder datepicker"}
-    %input{:type => 'text', :name => 'to', :title => "Data final", :value => "Data final", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "#{l Date.today.monday}", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'to', :title => "Data final", :value => "#{l Date.today.sunday}", :class => "placeHolder datepicker"}
     %input{:type => 'submit', :value => '>'}
 %h2 Contratos
 - for contract in @contracts
