@@ -1,36 +1,24 @@
-%h1= I18n.t :project
+%h1= t :project
 %p
-  = I18n.t :name
-  %br
-  =h @project.name
-
+  %label= t :name
+  = h @project.name
 %p
-  = I18n.t :contract
-  %br
-  =h @project.contract.name
-
+  %label= t :contract
+  = h @project.contract.name
 %p
-  = I18n.t :description
-  %br
+  %label= t :description
   =h @project.description
-
 %p
-  = I18n.t :description
-  %br
+  %label= t :description
   =h @project.description
-
 %p
-  = I18n.t :start_date
-  %br
+  %label= t :start_date
   = localized_date @project.start_date
-
 %p
-  = I18n.t :finish_date
-  %br
+  %label= t :finish_date
   = localized_date @project.finish_date
 
 %p
   = link_to I18n.t(:edit), edit_contract_project_path(@project.contract, @project)
   |
   = link_to I18n.t(:back), contract_projects_path(@project.contract)
-

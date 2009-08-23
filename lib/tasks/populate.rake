@@ -29,11 +29,13 @@ namespace :db do
     project4.users << user3
     project4.users << user1
     
-    Entry.delete_all
+    Entry.destroy_all
     (Date.today - 10).upto(Date.today) do |date|
       (1..3).each do |i|
-        Entry.create! :project => eval("project#{rand(4) + 1}"), 
-                      :hours => random_hour, 
+        h = random_hour
+        puts h
+        Entry.create! :project => eval("project#{rand(4) + 1}"),
+                      :hours => h,
                       :user => eval("user#{i}"),
                       :date => date
       end
