@@ -203,11 +203,12 @@ table tr .name { font-size: 10px; }
   width: 150px;
   font-size: 22px;
 }
-#new_user_session .buttons {
+#new_user_session .commit {
   margin: 0;
   padding: 0 0 0 5px;
+  list-style: none;
 }
-#new_user_session .buttons input {
+#new_user_session .commit input {
   width: 150px;
   font-size: 22px;
 }
