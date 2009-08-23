@@ -1,34 +1,31 @@
-%h1 Report
-
+%h1=I18n.t :reports
 #filters
   - form_tag reports_generate_path do |form|
-    %div
-      %h2= t(:contracts)
-      %ul
+    %h2= t(:contracts)
+    %ul
       - @contracts.each do |contract|
         %li
           = check_box_tag "filters[contracts][#{contract.to_param}]", contract.to_param
           %label= contract.name
-          %br
-          %ul
-            - contract.projects.each do |project|
-              = check_box_tag "filters[projects][#{project.to_param}]", project.to_param
-              %label= project.name
-    %div
-      %h2= t(:users)
-      %ul
+          - unless contract.projects.empty?
+            %br
+            %ul
+              %li
+                - contract.projects.each do |project|
+                  = check_box_tag "filters[projects][#{project.to_param}]", project.to_param
+                  %label= project.name
+    %h2= t(:users)
+    %ul
       - @users.each do |user|
         %li
           = check_box_tag "filters[users][#{user.to_param}]", user.to_param
           %label= user.name
-    %div
-      %h2= t(:grouping_options)
-      = select_tag 'filters[group_by]', options_for_select([[I18n.t(:user), :user], [I18n.t(:project), :project], [I18n.t(:contract), :contract]])
-    %div
-      %h2= t(:period)
-      %input{:type => 'text', :name => 'filters[period][from]', :title => "Data inicial", :value => "#{l Date.today.monday}", :class => "placeHolder datepicker"}
-      %input{:type => 'text', :name => 'filters[period][to]', :title => "Data final", :value => "#{l Date.today.sunday}", :class => "placeHolder datepicker"}
-      %br
-      %label= t(:group_by)
-      = select_tag 'filters[period][scale]', options_for_select([[I18n.t(:month), :month], [I18n.t(:week), :week], [I18n.t(:day), :day]])
-    = submit_tag I18n.t(:generate_report)
+    %h2= t(:grouping_options)
+    = select_tag 'filters[group_by]', options_for_select([[I18n.t(:user), :user], [I18n.t(:project), :project], [I18n.t(:contract), :contract]])
+    %h2= t(:period)
+    %input{:type => 'text', :name => 'filters[period][from]', :title => "Data inicial", :value => "#{l Date.today.monday}", :class => "placeHolder datepicker"}
+    %input{:type => 'text', :name => 'filters[period][to]', :title => "Data final", :value => "#{l Date.today.sunday}", :class => "placeHolder datepicker"}
+    %br
+    %label= t(:group_by)
+    = select_tag 'filters[period][scale]', options_for_select([[I18n.t(:month), :month], [I18n.t(:week), :week], [I18n.t(:day), :day]])
+  = submit_tag I18n.t(:generate_report)

@@ -8,15 +8,21 @@ pt:
   edit: "Editar"
   edit_project: "Editar projeto"
   finish_date: "Date de termino"
+  grouping_options: "Opções de agrupamento"
   logout: "Sair"
   name: "nome"
   new_project: "Novo projeto"
+  period: "Período"
+  project: "Projeto"
+  reports: "Relatórios"
   save_hours: "Salvar horas"
   show: "Ver"
   start_date: "Data de início"
   week: "Semana"
   title: "Projeto"
   total: "Total"
+  user: "Usuário"
+  users: "Usuários"
 ######################
   date:
     formats:
