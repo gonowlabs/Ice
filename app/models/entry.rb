@@ -22,6 +22,12 @@ class Entry < ActiveRecord::Base
     sum_hours(opts, :user_id => id)
   end
   
+  def status_name
+    return 'approved' if status == APPROVED
+    return 'rejected' if status == REJECTED
+    ''
+  end
+  
   private
   
   def self.sum_hours(opts, params, extras = {})

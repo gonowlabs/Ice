@@ -69,7 +69,12 @@ ul li span {
   float: right;
   color: #ffffff;
 }
+
 #header ul a { color: #ffffff; }
+
+=======
+#header ul a { color: #ffffff; }
+
 #container {
   margin: 0 auto 0 auto;
   width: 980px;
