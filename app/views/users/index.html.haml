@@ -1,9 +1,9 @@
-%h1 Listing users
+%h1=t(:users)
 %table
   %tr
-    %th Name
-    %th Login
-    %th E-mail
+    %th=t(:name)
+    %th=t(:login)
+    %th=t(:email)
     %th
     %th
     %th
@@ -12,7 +12,7 @@
       %td= h user.name
       %td= h user.login
       %td= h user.email
-      %td= link_to 'Show', user
-      %td= link_to 'Edit', edit_user_path(user)
-      %td= link_to 'Destroy', user_path(user), :confirm => 'Are you sure?', :method => :delete
-= link_to I18n.t(:new_user), new_user_path
+      %td= link_to t(:show), user
+      %td= link_to t(:edit), edit_user_path(user)
+      %td= link_to t(:destroy), user_path(user), :confirm => t(:sure)+'?', :method => :delete
+= link_to t(:new_user), new_user_path
