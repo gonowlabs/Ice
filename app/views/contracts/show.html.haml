@@ -1,8 +1,19 @@
-%h1= I18n.t :contract
-= I18n.t :name
-%br
-=h @contract.name
+%h1= t :contract
+%label= t :name
+= h @contract.name
+
 %p
-  = link_to I18n.t(:show), @contract
-  = link_to I18n.t(:edit), edit_contract_path(@contract)
-  = link_to I18n.t(:back), contracts_path
+  %h2= t :projects
+  %table
+    %tr
+      %th Name
+      %th
+    - @contract.projects.each do |project|
+      %tr
+        %td= h project.name
+        %td= link_to 'Show', contract_project_path(@contract, project)
+
+%p
+  = link_to t(:show), @contract
+  = link_to t(:edit), edit_contract_path(@contract)
+  = link_to t(:back), contracts_path
