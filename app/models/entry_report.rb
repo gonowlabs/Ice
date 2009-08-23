@@ -1,4 +1,15 @@
 class EntryReport < Entry
+  def self.generate(params)
+    query_params = {:joins => {:project, :contract}, :order => :date}
+    query_params.deep_merge! EntryReport.group_by(params[:group_by])
+    query_params.deep_merge! EntryReport.between(params[:period][:from], params[:period][:to])
+    query_params.deep_merge! EntryReport.filter_contracts(params[:contracts].keys)
+    query_params.deep_merge! EntryReport.filter_projects(params[:projects].keys)
+    query_params.deep_merge! EntryReport.filter_users(params[:users].keys)
+
+    EntryReport.process_period(query_params, params[:period][:scale])
+  end
+
   def self.group_by(param)
     result = case param
       when "contract" : group_by_contract
@@ -92,16 +103,24 @@ end
 
 class MonthYear
   attr_accessor :month, :year
+
   def initialize(date)
     self.month = date.month
     self.year = date.year
   end
+
   def equal?(other)
-    (self.year == other.year) && (self.month == other.month)
+    (self <=> other) == 0
   end
   alias eql? equal?
   alias == equal?
   alias === equal?
+
+  def <=>(other)
+    result = self.year - other.year
+    result == 0 ? self.month - other.month : result
+  end
+
   def to_s
     "#{I18n.t('date.month_names')[self.month]} #{self.year}"
   end
@@ -109,8 +128,4 @@ class MonthYear
     "#{self.year}#{'%02d' % self.month}".to_i
   end
   alias to_param hash
-  def <=>(other)
-    result = self.year - other.year
-    result == 0 ? self.month - other.month : result
-  end
 end
