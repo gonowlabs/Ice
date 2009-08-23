@@ -1,6 +1,6 @@
 - week_names = localized_week_days
 = render :partial => 'header', :locals => {:date => @reference_date}
-- render :layout => 'table', :locals => {:title => 'Project', :week_names => week_names, :style => 'inputHours'} do |hours_per_day|
+- render :layout => 'table', :locals => {:title => t(:project), :week_names => week_names, :style => 'inputHours'} do |hours_per_day|
   - for project in @projects
     - row_total = 0
     %tr

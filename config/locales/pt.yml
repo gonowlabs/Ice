@@ -24,8 +24,12 @@ pt:
   start_date: "Data de início"
   sure: "Certeza"
   week: "Semana"
+  month: "Mês"
+  day: "Dia"
   title: "Projeto"
   total: "Total"
+  group_by: "Agrupar por"
+  generate_report: "Gerar relatório"
   user: "Usuário"
   users: "Usuários"
 ######################
