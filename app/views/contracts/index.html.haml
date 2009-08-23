@@ -1,10 +1,15 @@
-%h1= I18n.t :contracts
-- for contract in @contracts
-  %p
-    = I18n.t :name
-    %br
-    =h contract.name
-    %br
-    = link_to I18n.t(:edit), edit_contract_path(contract)
-    = link_to I18n.t(:destroy), contract, :confirm => 'Are you sure?', :method => :delete
+%h1= t :contracts
+%h1 Listing contracts
+%table
+  %tr
+    %th Name
+    %th
+    %th
+    %th
+  - @contracts.each do |contract|
+    %tr
+      %td= h contract.name
+      %td= link_to 'Show', contract
+      %td= link_to 'Edit', edit_contract_path(contract)
+      %td= link_to 'Destroy', contract_path(contract), :confirm => 'Are you sure?', :method => :delete
 %p= link_to I18n.t(:contract_new), new_contract_path

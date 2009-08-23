@@ -1,0 +1,15 @@
+%h1= t :user
+%p
+  %label= t :name
+  = h @user.name
+%p
+  %label= t :login
+  = h @user.login
+%p
+  %label= t :email
+  =h @user.email
+
+%p
+  = link_to I18n.t(:edit), edit_user_path(@user)
+  |
+  = link_to I18n.t(:back), users_path

@@ -111,10 +111,20 @@ def should_behave_like_resource(opts = {})
     actions = opts[:actions]
     actions.nil? or [actions].flatten.include?(action)
   end
-  
+
   def formats_include_html(opts)
     formats = opts[:formats]
     formats.nil? or formats.include?(:html)
+  end
+
+  def formats_include_json(opts)
+    formats = opts[:formats]
+    !formats.nil? && formats.include?(:json)
+  end
+
+  def formats_include_xml(opts)
+    formats = opts[:formats]
+    !formats.nil? && formats.include?(:xml)
   end
 
   describe "GET index" do
@@ -136,13 +146,13 @@ def should_behave_like_resource(opts = {})
       clazz.stub!(:find).with(mocked_model_id).and_return(mocked_model)
       get :show, {:format => "json", :id => mocked_model_id}.merge(parameters)
       response.body.should eql(mocked_model.to_json)
-    end
+    end if formats_include_json(opts)
 
     it "returns a #{model} as xml" do
       clazz.stub!(:find).with(mocked_model_id).and_return(mocked_model)
       get :show, {:format => "xml", :id => mocked_model_id}.merge(parameters)
       response.body.should eql(mocked_model.to_xml)
-    end
+    end if formats_include_xml(opts)
   end if should_show(opts, :show)
 
   describe "GET new" do
