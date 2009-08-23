@@ -24,6 +24,7 @@ input, textarea, select{
   -webkit-border-radius: 5px;
   color: #7e7e7e;
   width:150px;
+  margin:0 0 5px 0;
 }
 ul{
   list-style:none;
@@ -31,7 +32,7 @@ ul{
   margin:0 0 5px 0;
 }
 #headerBg{
-  background:#33ccff;
+  background:#0099ff;
   margin:0;
   width:100%;
   height:75px;
@@ -55,6 +56,9 @@ ul{
     font-size:14px;
     float:right;
     color: #fff;
+    a{
+      color: #fff;
+    }
   }
 }
 #container{
@@ -68,16 +72,14 @@ table{
   empty-cells:show;
   table-layout:fixed;
   width:100%;
-  float:right;
   tr{
     th, .total_hour{
-      text-align:center;
+      text-align:left;
       width:11.1%;
       background:#F0F0F0;
       padding:5px;
     }
     td{
-      text-align:center;
       width:11.1%;
       padding:5px;
       input{
@@ -85,7 +87,9 @@ table{
         background:none;
         padding:0;
         font-size:18px;
-        text-align:center;
+      }
+      span{
+        float:right;
       }
     }
     .project, .total_hours{
@@ -94,6 +98,9 @@ table{
     }
     .projects{
       text-align:left;
+    }
+    .name{
+      font-size:10px;
     }
   }
   .odd{
