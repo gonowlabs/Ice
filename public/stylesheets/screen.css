@@ -136,6 +136,7 @@ table tr .project {
   text-align: center;
 }
 table tr .projects { text-align: center; }
+table tr .name { font-size: 10px; }
 .inputHours tr th {
   width: 11.1%;
   font-size: 14px;
@@ -145,7 +146,6 @@ table tr .projects { text-align: center; }
   font-size: 18px;
 }
 .inputHours tr td input { font-size: 18px; }
-.inputHours tr .name { font-size: 10px; }
 .save_hours {
   margin: 10px 0 10px 2px;
   float: right;
