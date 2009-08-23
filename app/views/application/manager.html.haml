@@ -1,7 +1,11 @@
+<<<<<<< HEAD:app/views/application/manager.html.haml
+no manager plz!
+=======
 = render :partial => 'header', :locals => {:date => @reference_date}
 - for project in @projects
   .project
-    = project.name
+    %h2
+      = project.name
     - render :layout => 'table', :locals => {:title => 'User'} do |hours_per_day|
       - for user in project.users
         - row_total = 0
@@ -11,7 +15,9 @@
           - user.entries.for_week_and_project(@reference_date, project).each_with_index do |entry, week_day|
             %td
               = entry.hours
-
+              = link_to_remote '<span class="ui-icon ui-icon-check">aprovar</span>', :url  => entry_path(entry), :method => :put, :html => { :class  => "aprove" }, :with => "'status=1'"
+              = link_to_remote '<span class="ui-icon ui-icon-closethick">reprovar</span>', :url  => entry_path(entry), :method => :put, :html => { :class  => "aprove" }, :with => "'status=0'"
               - hours_per_day[week_day] += entry.hours
               - row_total += entry.hours
           %td= row_total
+>>>>>>> master:app/views/application/manager.html.haml
