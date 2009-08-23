@@ -18,7 +18,8 @@
               = current_user.name
             %li
               %a{:href => logout_path}
+                = I18n.t :logout
                 %span{:class => 'ui-state-default ui-corner-all ui-icon ui-icon-closethick'}
-                Sair
+                  = I18n.t :logout
     %div#container
       = yield

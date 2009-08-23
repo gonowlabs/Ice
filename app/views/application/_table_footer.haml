@@ -1,6 +1,6 @@
 %tr
-  %td.total_hours Total
+  %td= I18n.t :total
   - hours.each_with_index do |total, week_day|
     %td{:class => "total hour", :week => week_names[week_day]}
-      = total
-  %td.total_hour= hours.sum
+      = format_hour(total)
+  %td= format_hour(hours.sum)

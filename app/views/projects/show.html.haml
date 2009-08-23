@@ -30,7 +30,7 @@
   = localized_date @project.finish_date
 
 %p
-  = link_to 'Edit', edit_contract_project_path(@project.contract, @project)
+  = link_to I18n.t(:edit), edit_contract_project_path(@project.contract, @project)
   |
-  = link_to 'Back', contract_projects_path(@project.contract)
+  = link_to I18n.t(:back), contract_projects_path(@project.contract)
 

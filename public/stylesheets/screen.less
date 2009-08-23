@@ -18,13 +18,17 @@ a{
 a:hover{
   color:#FF8C00;
 }
+.entry{
+  text-align:center;
+  background:#fff;
+}
 input, textarea, select{
   border:1px solid #ccc;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   color: #7e7e7e;
   width:150px;
-  margin:0 0 5px 0;
+  margin:0;
 }
 ul{
   list-style:none;
@@ -43,6 +47,8 @@ ul{
   margin:0;
   width:100%;
   height:75px;
+  border-top:5px solid #0066CC;
+  border-bottom:5px solid #F0F0F0;
 }
 #header{
   margin:0 auto 0 auto;
@@ -80,41 +86,49 @@ table{
   table-layout:fixed;
   width:100%;
   tr{
-    th, .total_hour{
-      text-align:left;
+    th{
+      text-align:center;
       width:11.1%;
       background:#F0F0F0;
       padding:5px;
+      font-size:14px;
+    }
+    .approved{
+      background:#CCFFFF;
+    }
+    .rejected{
+      background:#FFCCCC;
     }
     td{
       width:11.1%;
       padding:5px;
+      text-align:center;
+      background:#f7f7f7;
+      font-size:18px;
       input{
         width:50px;
         background:none;
         padding:0;
         font-size:18px;
       }
+      .options{
+        display:none;
+        position:absolute;
+      }
       span{
         float:right;
       }
     }
-    .project, .total_hours{
+    .project{
       background:#E8E8E8;
-      text-align:left;
+      text-align:center;
     }
     .projects{
-      text-align:left;
+      text-align:center;
     }
     .name{
       font-size:10px;
     }
-  }
-  .odd{
-    background:#F0F0F0;
-  }
-  .pair{
-    background:#F8F8F8;
   }
 }
 .save_hours{

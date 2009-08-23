@@ -22,13 +22,17 @@ a {
   color: #0099ff;
 }
 a:hover { color: #ff8c00; }
+.entry {
+  text-align: center;
+  background: #ffffff;
+}
 input, textarea, select {
   border: 1px solid #cccccc;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   color: #7e7e7e;
   width: 150px;
-  margin: 0 0 5px 0;
+  margin: 0;
 }
 ul {
   list-style: none;
@@ -47,6 +51,8 @@ ul li span {
   margin: 0;
   width: 100%;
   height: 75px;
+  border-top: 5px solid #0066cc;
+  border-bottom: 5px solid #f0f0f0;
 }
 #header {
   margin: 0 auto 0 auto;
@@ -69,12 +75,7 @@ ul li span {
   float: right;
   color: #ffffff;
 }
-
 #header ul a { color: #ffffff; }
-
-=======
-#header ul a { color: #ffffff; }
-
 #container {
   margin: 0 auto 0 auto;
   width: 980px;
@@ -88,20 +89,20 @@ table {
   width: 100%;
 }
 table tr th {
-  text-align: left;
+  text-align: center;
   width: 11.1%;
   background: #f0f0f0;
   padding: 5px;
+  font-size: 14px;
 }
-table tr .total_hour {
-  text-align: left;
-  width: 11.1%;
-  background: #f0f0f0;
-  padding: 5px;
-}
+table tr .approved { background: #ccffff; }
+table tr .rejected { background: #ffcccc; }
 table tr td {
   width: 11.1%;
   padding: 5px;
+  text-align: center;
+  background: #f7f7f7;
+  font-size: 18px;
 }
 table tr td input {
   width: 50px;
@@ -109,19 +110,17 @@ table tr td input {
   padding: 0;
   font-size: 18px;
 }
+table tr td .options {
+  display: none;
+  position: absolute;
+}
 table tr td span { float: right; }
 table tr .project {
   background: #e8e8e8;
-  text-align: left;
+  text-align: center;
 }
-table tr .total_hours {
-  background: #e8e8e8;
-  text-align: left;
-}
-table tr .projects { text-align: left; }
+table tr .projects { text-align: center; }
 table tr .name { font-size: 10px; }
-table .odd { background: #f0f0f0; }
-table .pair { background: #f8f8f8; }
 .save_hours {
   margin: 10px 0 10px 2px;
   float: right;
