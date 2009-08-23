@@ -1,5 +1,6 @@
 class UserSessionsController < InheritedResources::Base
   skip_before_filter :require_user
+  layout false
 
   def new
     @user_session = UserSession.new

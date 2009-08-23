@@ -4,7 +4,7 @@
   .project
     %h3
       = project.name
-    - render :layout => 'table', :locals => {:title => 'User', :style => '', :week_names => week_names} do |hours_per_day|
+    - render :layout => 'table', :locals => {:title => t(:user), :style => '', :week_names => week_names} do |hours_per_day|
       - for user in project.users
         - row_total = 0
         %tr

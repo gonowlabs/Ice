@@ -19,8 +19,12 @@ pt:
   show: "Ver"
   start_date: "Data de início"
   week: "Semana"
+  month: "Mês"
+  day: "Dia"
   title: "Projeto"
   total: "Total"
+  group_by: "Agrupar por"
+  generate_report: "Gerar relatório"
   user: "Usuário"
   users: "Usuários"
 ######################
