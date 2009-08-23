@@ -51,6 +51,8 @@ ul li span {
   margin: 0;
   width: 100%;
   height: 75px;
+  border-top: 5px solid #0066cc;
+  border-bottom: 5px solid #f0f0f0;
 }
 #header {
   margin: 0 auto 0 auto;
