@@ -1,5 +1,5 @@
 %tr
-  %th.project= title
+  %th= title
   - week_names.each_with_index do |day, i|
     %th= day
-  %th Total
+  %th=I18n.t(:total)

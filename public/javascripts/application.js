@@ -2,8 +2,16 @@ $(function() {
   $(".placeHolder").focus(placeHolder)
   $(".placeHolder").blur(placeHolder)
   $(".datepicker").datepicker({showOn: 'button', buttonImage: '../images/calendar.gif', buttonImageOnly: true, dateFormat: 'dd/mm/yy', dayNamesMin: ['Se', 'Te', 'Qu', 'Qu', 'Se', 'Sá', 'Do'], monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'] });
+  $("td").hover(showOptions,hideOptions)
 })
-
+function approved(id){
+  $('#'+id).fadeOut('fast').addClass('approved').fadeIn('slow')
+  $('#'+id).removeClass('rejected')
+}
+function rejected(id){
+  $('#'+id).addClass('rejected').pulsate()
+  $('#'+id).removeClass('approved')
+}
 function placeHolder(){
   if($(this).val() == $(this).attr('title')){
     $(this).val('')
@@ -12,9 +20,14 @@ function placeHolder(){
     if($(this).val() == ''){
       $(this).val($(this).attr('title'))
     }
-  }  
+  }
 }
-
+function showOptions(){
+  $(this).children('.options').show()
+}
+function hideOptions(){
+  $(this).children('.options').fadeOut('fast')
+}
 function calculateTotals(id){
 	var campo = $("#" + id);
 	updateTotal(campo, 'week');

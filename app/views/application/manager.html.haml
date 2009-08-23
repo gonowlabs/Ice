@@ -1,19 +1,20 @@
 = render :partial => 'header', :locals => {:date => @reference_date}
 - for project in @projects
   .project
-    %h2
+    %h3
       = project.name
     - render :layout => 'table', :locals => {:title => 'User'} do |hours_per_day|
       - for user in project.users
         - row_total = 0
-        %tr{:class => cycle('pair', 'odd')}
+        %tr
           %td.name
             =h user.name
           - user.entries.for_week_and_project(@reference_date, project).each_with_index do |entry, week_day|
-            %td
-              = entry.hours
-              = link_to_remote '<span class="ui-icon ui-icon-check">aprovar</span>', :url  => entry_path(entry), :method => :put, :html => { :class  => "aprove" }, :with => "'status=1'"
-              = link_to_remote '<span class="ui-icon ui-icon-closethick">reprovar</span>', :url  => entry_path(entry), :method => :put, :html => { :class  => "aprove" }, :with => "'status=0'"
+            %td{:id => "hours_#{entry.id}", :class => entry.status_name}
+              = format_hour(entry.hours)
+              %span.options
+                = link_to_remote '<span class="ui-icon ui-icon-check">aprovar</span>', :url  => entry_path(entry), :method => :put, :with => "'status=1'", :html => { :alt  => "aprovar" }, :success => "approved(\"hours_#{entry.id}\")"
+                = link_to_remote '<span class="ui-icon ui-icon-closethick">reprovar</span>', :url  => entry_path(entry), :method => :put, :with => "'status=0'", :html => { :alt  => "reprovar" }, :success => "rejected(\"hours_#{entry.id}\")"
               - hours_per_day[week_day] += entry.hours
               - row_total += entry.hours
-          %td= row_total
+          %td= format_hour(row_total)
