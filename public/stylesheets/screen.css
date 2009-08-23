@@ -69,12 +69,14 @@ ul li span {
   text-decoration: none;
 }
 #header ul {
-  margin: 18px 0 0 0;
+  margin: 30px 0 0 0;
   padding: 0;
   font-size: 14px;
   float: right;
   color: #ffffff;
 }
+#header ul .login { margin: 0 15px 0 0; }
+#header ul li { float: left; }
 #header ul a { color: #ffffff; }
 #container {
   margin: 0 auto 0 auto;
@@ -95,8 +97,8 @@ table tr th {
   padding: 5px;
   font-size: 14px;
 }
-table tr .approved { background: #ccffff; }
-table tr .rejected { background: #ffcccc; }
+table tr .approved { background: #e8f8ff; }
+table tr .rejected { background: #ffe8e8; }
 table tr td {
   width: 11.1%;
   padding: 5px;
