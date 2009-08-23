@@ -50,4 +50,18 @@ describe Entry do
       cost.should eql(result)
     end
   end
+  
+  context "returning the status name" do
+    it "should return approved if the entry was approved" do
+      Entry.new(:status => Entry::APPROVED).status_name.should eql('approved')
+    end
+    
+    it "should return rejected if the entry was rejected" do
+       Entry.new(:status => Entry::REJECTED).status_name.should eql('rejected')
+    end
+    
+    it "should return an empty string if the entry doesnt have a status" do
+      Entry.new.status_name.should be_blank
+    end
+  end
 end
