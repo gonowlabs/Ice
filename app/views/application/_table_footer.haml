@@ -3,4 +3,4 @@
   - hours.each_with_index do |total, week_day|
     %td{:class => "total hour", :week => week_names[week_day]}
       = total
-  %td.total_hour= hours.sum
+  %td#total_general= hours.sum

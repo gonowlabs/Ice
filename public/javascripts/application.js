@@ -19,17 +19,28 @@ function calculateTotals(id){
 	var campo = $("#" + id);
 	updateTotal(campo, 'week');
 	updateTotal(campo, 'project');
+	updateTotalGeneral();
 }
 
 function updateTotal(field, attribute) {
-	var soma = 0;
+	var count = 0;
 	var selector = "*[" + attribute + "='" + field.attr(attribute) + "']";
 	$(selector).each(function() {
 		var obj = $(this);
 		if (obj.hasClass('total')) {
-			obj.text(soma);
+			obj.text(count);
 		} else {
-			soma = soma + parseFloat(obj.val());
+			valor = obj.val()
+			count = count + parseFloat(valor);
 		}
 	});
+}
+
+function updateTotalGeneral(){
+	var count = 0;
+	$(".total.project").each(function(){
+		valor = $(this).text();
+		count = count + parseFloat(valor);
+	});
+	$("#total_general").text(count);
 }
