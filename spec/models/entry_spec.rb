@@ -8,6 +8,7 @@ describe Entry do
   should_belong_to :user
   should_belong_to :project
   should_validate_presence_of :user, :project, :date
+  should_validate_numericality_of :hours, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 24
 
   context "uniqueness" do
     before :each do

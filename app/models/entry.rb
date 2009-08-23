@@ -8,6 +8,7 @@ class Entry < ActiveRecord::Base
 
   validates_presence_of :user, :project, :date
   validates_uniqueness_of :date, :scope => [:user_id, :project_id]
+  validates_numericality_of :hours, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 24
   
   def self.cost_by_contract(id, opts)
     sum_hours(opts, {:projects => {:contract_id => id}}, :joins => :project)
