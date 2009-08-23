@@ -94,6 +94,8 @@ table tr .total_hour {
   background: #f0f0f0;
   padding: 5px;
 }
+table tr .approve { background: #ccffff; }
+table tr .disapprove { background: #ffcccc; }
 table tr td {
   width: 11.1%;
   padding: 5px;

@@ -3,7 +3,14 @@ $(function() {
   $(".placeHolder").blur(placeHolder)
   $(".datepicker").datepicker({showOn: 'button', buttonImage: '../images/calendar.gif', buttonImageOnly: true, dateFormat: 'dd/mm/yy', dayNamesMin: ['Se', 'Te', 'Qu', 'Qu', 'Se', 'Sá', 'Do'], monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'] });
 })
-
+function approve(id){
+  $('#'+id).addClass('approve')
+  $('#'+id).removeClass('disapprove')
+}
+function disapprove(id){
+  $('#'+id).addClass('disapprove')
+  $('#'+id).removeClass('approve')
+}
 function placeHolder(){
   if($(this).val() == $(this).attr('title')){
     $(this).val('')
@@ -12,7 +19,7 @@ function placeHolder(){
     if($(this).val() == ''){
       $(this).val($(this).attr('title'))
     }
-  }  
+  }
 }
 
 function calculateTotals(id){
