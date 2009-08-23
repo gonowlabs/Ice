@@ -7,17 +7,59 @@ describe Project do
   should_have_many :entries
   should_validate_presence_of :name, :contract
 
-#  context "when retrieving user entries by week and user" do
-#    before :all do
-#      @entries = build_entries
-#      @project = Factory(:project_1)
-#      @user = Factory(:user_a)
-#    end
+  context "when retrieving user entries by week and user" do
+    before :each do
+      Contract.destroy_all
+      User.destroy_all
+      Entry.destroy_all
+      @project = Factory(:project_1)
+      @user = Factory(:user_a)
+      @starting_date = Date.today.monday
+      @ending_date = Date.today.sunday
+    end
 
-#    it "should apply the user filter" do
-#      starting_date = Date.today.monday
-#      ending_date = Date.today.sunday
-#      entries = @project.entries.for_week_and_user(Date.today, @user)
-#    end
-#  end
+    context "and there are no entries" do
+      before :each do
+        @entries = @project.entries.for_week_and_user(Date.today, @user)
+      end
+
+      it "should return 7 new entries" do
+        @entries.length.should == 7
+      end
+      it "the first should correspond to the start of the week" do
+        @entries.first.date.should == @starting_date
+      end
+      it "the last should correspond to the end of the week" do
+        @entries.last.date.should == @ending_date
+      end
+    end
+
+    context "and there are less then 7 records for the week" do
+      before :each do
+        Factory(:entry, :user => @user, :project => @project, :date => Date.today)
+        @entries = @project.entries.for_week_and_user(Date.today, @user)
+      end
+
+      it "should return 7 new entries" do
+        @entries.length.should == 7
+      end
+      it "the first should correspond to the start of the week" do
+        @entries.first.date.should == @starting_date
+      end
+      it "the last should correspond to the end of the week" do
+        @entries.last.date.should == @ending_date
+      end
+    end
+
+    context "and there are entries from other users in the same project" do
+      before :each do
+        @user_b = Factory(:user_b, :projects => [@project])
+        Factory(:entry, :user => @user_b, :project => @project, :date => Date.today)
+        @entries = @project.entries.for_week_and_user(Date.today, @user)
+      end
+      it "all entries should belong to the same user" do
+        @entries.all? {|entry| entry.user == @user}.should be_true
+      end
+    end
+  end
 end

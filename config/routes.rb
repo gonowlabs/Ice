@@ -1,8 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :entries
   map.resources :users
-  map.resources :projects
-  map.resources :contracts
+  map.resources :contracts, :has_many => :projects
 
   map.signup '/signup',  :controller => 'users', :action => 'new'
   

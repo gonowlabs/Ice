@@ -7,4 +7,8 @@ module ApplicationHelper
   def workers(users)
     users.select { |user| ![User::ADMIN, User::MANAGER].include? user.role }
   end
+
+  def localized_date(date)
+    date ? I18n.l(date) : ''
+  end
 end
