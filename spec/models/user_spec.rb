@@ -4,6 +4,7 @@ describe User do
   should_have_and_belong_to_many :projects
   should_have_many :entries
   should_be_authentic
+  should_have_many :comments, :foreign_key => 'author_id'
   
   it "should identify an user as admin" do
     User.new(:role => User::ADMIN).admin?.should be_true

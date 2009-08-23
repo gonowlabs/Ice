@@ -5,5 +5,5 @@ describe EntriesHelper do
   
   it "should return local week days" do
     localized_week_days.should == ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
-  end
+  end  
 end

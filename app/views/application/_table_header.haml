@@ -1,5 +1,5 @@
 %tr
   %th.project= title
-  - localized_week_days.each do |day|
+  - week_names.each_with_index do |day, i|
     %th= day
   %th Total
