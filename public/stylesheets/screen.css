@@ -80,6 +80,7 @@ ul li span {
 #header ul a { color: #ffffff; }
 #container {
   margin: 0 auto 0 auto;
+  padding: 0;
   width: 980px;
 }
 #filters ul {
@@ -176,4 +177,37 @@ table tr .name { font-size: 10px; }
   border: 0;
   margin: 0 0 10px 150px;
   padding: 5px;
+}
+#login {
+  margin: 10% auto 0 auto;
+  padding: 0;
+  width: 150px;
+}
+#login h1 {
+  margin: 0 auto 0 auto;
+  text-align: center;
+  color: #2c95ff;
+}
+#new_user_session {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+#new_user_session label {
+  text-align: right;
+  width: 50px;
+  padding: 0;
+  font-size: 18px;
+}
+#new_user_session input {
+  width: 150px;
+  font-size: 22px;
+}
+#new_user_session .buttons {
+  margin: 0;
+  padding: 0 0 0 5px;
+}
+#new_user_session .buttons input {
+  width: 150px;
+  font-size: 22px;
 }

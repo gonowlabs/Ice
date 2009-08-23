@@ -28,4 +28,4 @@
     %br
     %label= t(:group_by)
     = select_tag 'filters[period][scale]', options_for_select([[I18n.t(:month), :month], [I18n.t(:week), :week], [I18n.t(:day), :day]])
-  = submit_tag I18n.t(:generate_report)
+    = submit_tag I18n.t(:generate_report)
