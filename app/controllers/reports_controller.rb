@@ -24,13 +24,6 @@ class ReportsController < InheritedResources::Base
   end
 
   def generate
-    query_params = {:joins => {:project, :contract}, :order => :date}
-    query_params.deep_merge! EntryReport.group_by(params[:filters][:group_by])
-    query_params.deep_merge! EntryReport.between(params[:filters][:period][:from], params[:filters][:period][:to])
-    query_params.deep_merge! EntryReport.filter_contracts(params[:filters][:contracts].keys)
-    query_params.deep_merge! EntryReport.filter_projects(params[:filters][:projects].keys)
-    query_params.deep_merge! EntryReport.filter_users(params[:filters][:users].keys)
-
-    @report_data = EntryReport.process_period(query_params, params[:filters][:period][:scale])
+    @report_data = EntryReport.generate(params[:filters])
   end
 end
