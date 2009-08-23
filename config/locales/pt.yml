@@ -6,11 +6,17 @@ pt:
   description: "Descrição"
   destroy: "Apagar"
   edit: "Editar"
+  edit_project: "Editar projeto"
   finish_date: "Date de termino"
+  logout: "Sair"
   name: "nome"
+  new_project: "Novo projeto"
   save_hours: "Salvar horas"
   show: "Ver"
   start_date: "Data de início"
+  week: "Semana"
+  title: "Projeto"
+  total: "Total"
 ######################
   date:
     formats:
