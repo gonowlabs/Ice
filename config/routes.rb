@@ -4,13 +4,15 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :contracts, :has_many => :projects
 
   map.signup '/signup',  :controller => 'users', :action => 'new'
-  
   map.login '/login', :controller => "user_sessions", :action => 'new'
   map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'
   
   map.cost_by_contract '/cost_by_contract', :controller => "reports", :action => 'cost_by_contract'
   map.cost_by_project  '/cost_by_project',  :controller => "reports", :action => 'cost_by_project'
   map.cost_by_user     '/cost_by_user',     :controller => "reports", :action => 'cost_by_user'
+
+  map.reports          '/reports',          :controller => "reports", :action => 'index'
+  map.reports_generate '/reports/generate', :controller => "reports", :action => 'generate'
   
   map.resource :user_sessions
 
