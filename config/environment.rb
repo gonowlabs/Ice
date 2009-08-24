@@ -47,4 +47,4 @@ Rails::Initializer.run do |config|
   config.i18n.default_locale = :pt
 end
 
-I18n.localize_core = true
+I18n.localize_core = false
