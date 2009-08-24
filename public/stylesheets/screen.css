@@ -83,9 +83,26 @@ ul li span {
   padding: 0;
   width: 980px;
 }
+#filters div {
+  float: left;
+  width: 100%;
+}
+#filters h2 {
+  float: left;
+  width: 100%;
+}
 #filters ul {
   list-style: none;
   margin: 0;
+  width: 100%;
+  float: left;
+}
+#filters ul .userName {
+  width: 150px;
+  display: block;
+  margin: 0 0 0 10px;
+  padding: 0;
+  float: left;
 }
 #filters ul li {
   margin: 0;
@@ -99,9 +116,10 @@ ul li span {
 #filters ul li ul li {
   margin: 0 0 0 10px;
   padding: 0;
-  width: 150px;
+  width: 100%;
   display: block;
 }
+#filters ul li ul li label { margin: 0 20px 0 0; }
 table {
   border-collapse: separate;
   border-spacing: 1;

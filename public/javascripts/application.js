@@ -3,13 +3,14 @@ $(function() {
   $(".placeHolder").blur(placeHolder)
   $(".datepicker").datepicker({showOn: 'button', buttonImage: '../images/calendar.gif', buttonImageOnly: true, dateFormat: 'dd/mm/yy', dayNamesMin: ['Se', 'Te', 'Qu', 'Qu', 'Se', 'Sá', 'Do'], monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'] });
   $("td").hover(showOptions,hideOptions)
+  $(".contract").click(checkProjects)
 })
 function approved(id){
   $('#'+id).fadeOut('fast').addClass('approved').fadeIn('slow')
   $('#'+id).removeClass('rejected')
 }
 function rejected(id){
-  $('#'+id).addClass('rejected').pulsate()
+  $('#'+id).fadeOut('fast').addClass('rejected').fadeIn('slow')
   $('#'+id).removeClass('approved')
 }
 function placeHolder(){
@@ -27,6 +28,15 @@ function showOptions(){
 }
 function hideOptions(){
   $(this).children('.options').fadeOut('fast')
+}
+function checkProjects(){
+  thisId = $(this).attr("title")
+  if( $(this).attr("checked") ){
+    $(".contract_" + thisId).attr("checked","checked")
+  }
+  else{
+    $(".contract_" + thisId).removeAttr("checked")
+  }
 }
 function calculateTotals(id){
 	var campo = $("#" + id);
