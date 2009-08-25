@@ -7,7 +7,7 @@ module EntriesHelper
 
   def format_hour(hours)
     str = hours.to_s
-    parts = str.split(".")
+    parts = str.split('.')
     parts[1].to_i == 0 ? parts[0] : str
   end
 end

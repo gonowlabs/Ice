@@ -12,7 +12,7 @@
               %ul
                 %li
                   - contract.projects.each do |project|
-                    = check_box_tag "filters[projects][#{project.to_param}]", project.to_param, false, :class => "contract_#{contract.to_param}"
+                    = check_box_tag "filters[projects][#{project.to_param}]", project.to_param, false, :class => "project contracts_#{contract.to_param}"
                     %label= project.name
     %div
       %h2= t(:users)
