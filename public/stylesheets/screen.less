@@ -49,10 +49,13 @@ ul{
   height:75px;
   border-top:5px solid #0066CC;
   border-bottom:5px solid #F0F0F0;
+  float:left;
 }
 #header{
-  margin:0 auto 0 auto;
+  margin:0 0 0 -490px;
+  padding:0 0 0 50%;
   width:@width-page;
+  float:left;
   h1{
     margin:0;
     padding:0;
@@ -83,9 +86,24 @@ ul{
   }
 }
 #container{
-  margin:0 auto 0 auto;
-  padding:0;
+  margin:0 0 0 -490px;
+  padding:0 0 0 50%;
   width:@width-page;
+  float:left;
+}
+#column{
+  float:left;
+  width:300px;
+  margin:10px 10px 0 0;
+  padding:10px;
+  background:#f7f7f7;
+}
+#rightColumn{
+  float:right;
+  width:300px;
+  margin:10px 0 0 0;
+  padding:10px;
+  background:#f7f7f7;
 }
 #filters{
   div{
@@ -194,6 +212,9 @@ table{
 .save_hours{
   margin:10px 0 10px 2px;
   float:right;
+}
+.go{
+  width:20px;
 }
 .formtastic{
   margin:0;

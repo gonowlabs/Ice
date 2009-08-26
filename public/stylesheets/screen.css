@@ -53,10 +53,13 @@ ul li span {
   height: 75px;
   border-top: 5px solid #0066cc;
   border-bottom: 5px solid #f0f0f0;
+  float: left;
 }
 #header {
-  margin: 0 auto 0 auto;
+  margin: 0 0 0 -490px;
+  padding: 0 0 0 50%;
   width: 980px;
+  float: left;
 }
 #header h1 {
   margin: 0;
@@ -79,9 +82,24 @@ ul li span {
 #header ul li { float: left; }
 #header ul a { color: #ffffff; }
 #container {
-  margin: 0 auto 0 auto;
-  padding: 0;
+  margin: 0 0 0 -490px;
+  padding: 0 0 0 50%;
   width: 980px;
+  float: left;
+}
+#column {
+  float: left;
+  width: 300px;
+  margin: 10px 10px 0 0;
+  padding: 10px;
+  background: #f7f7f7;
+}
+#rightColumn {
+  float: right;
+  width: 300px;
+  margin: 10px 0 0 0;
+  padding: 10px;
+  background: #f7f7f7;
 }
 #filters div {
   float: left;
@@ -169,6 +187,7 @@ table tr .name { font-size: 10px; }
   margin: 10px 0 10px 2px;
   float: right;
 }
+.go { width: 20px; }
 .formtastic {
   margin: 0;
   padding: 0;
