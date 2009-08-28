@@ -59,17 +59,24 @@
   %br
   %br
 #rightColumn
-  %h2 Horas trabalhadas por contrato
+  %h2 Horas trabalhadas
   %form{:action => cost_by_contract_path}
     %p
       %select{:name => 'id'}
         %option{:value => ""}= "Contratos"
         - for contract in @contracts
           %option{:value => contract.id}= contract.name
+    %p
+      %select{:name => 'id'}
+        %option{:value => ""}= "Projetos"
+        - for project in projects_from(@contracts)
+          %option{:value => project.id}= project.name
+
       %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "#{l Date.today.monday}", :class => "placeHolder datepicker"}
       %input{:type => 'text', :name => 'to', :title => "Data final", :value => "#{l Date.today.sunday}", :class => "placeHolder datepicker"}
       %input{:type => 'submit', :value => '>', :class => 'go'}
-  %h2 Horas trabalhadas por projeto
+
+
   %form{:action => cost_by_project_path}
     %p
       %select{:name => 'id'}
@@ -79,7 +86,8 @@
       %input{:type => 'text', :name => 'from', :title => "Data inicial", :value => "#{l Date.today.monday}", :class => "placeHolder datepicker"}
       %input{:type => 'text', :name => 'to', :title => "Data final", :value => "#{l Date.today.sunday}", :class => "placeHolder datepicker"}
       %input{:type => 'submit', :value => '>', :class => 'go'}
-  %h2 Por pessoa
+
+
   %form{:action => cost_by_user_path}
     %p
       %select{:name => 'id'}
