@@ -3,7 +3,7 @@
 %html
   %head
     %title ice project
-    = stylesheet_link_tag 'screen.css'
+    = stylesheet_link_tag 'login.css'
   %body
     #login
       %h1
@@ -11,3 +11,4 @@
       - semantic_form_for @user_session do |form|
         = form.inputs :login, :password
         = form.commit_button t(:login)
+    #bg
