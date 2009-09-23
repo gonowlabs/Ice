@@ -1,15 +1,23 @@
-set :application, "set your application name here"
-set :repository,  "set your repository location here"
+set :application, "ice"
+set :repository,  "git://github.com/gonow/Ice.git"
+set :deploy_to, "/opt/#{application}"
+set :scm, :git
 
-# If you aren't deploying to /u/apps/#{application} on the target
-# servers (which is the default), you can specify the actual location
-# via the :deploy_to variable:
-# set :deploy_to, "/var/www/#{application}"
+require 'capistrano/ext/multistage'
 
-# If you aren't using Subversion to manage your source code, specify
-# your SCM below:
-# set :scm, :subversion
+namespace :deploy do
+  desc "Restarting mod_rails with restart.txt"
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "touch #{current_path}/tmp/restart.txt"
+  end
 
-role :app, "your app-server here"
-role :web, "your web-server here"
-role :db,  "your db-server here", :primary => true
+  desc "Create asset packages for production"
+  task :after_update_code, :roles => [:web] do
+    run "cd #{release_path} && rake asset:packager:build_all"
+  end
+
+  [:start, :stop].each do |t|
+    desc "#{t} task is a no-op with mod_rails"
+    task t, :roles => :app do ; end
+  end
+end

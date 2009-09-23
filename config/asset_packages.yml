@@ -1,9 +1,12 @@
---- 
-javascripts: 
-- base: 
-  - jrails
+---
+javascripts:
+- base:
   - jquery
   - jquery-ui
-stylesheets: 
-- base: []
-
+  - jrails
+  - application
+  - report
+stylesheets:
+- base:
+  - screen
+  - jquery-ui

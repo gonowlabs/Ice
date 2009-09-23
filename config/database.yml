@@ -15,6 +15,14 @@ test: &TEST
   pool: 5
   timeout: 5000
 
+staging:
+  adapter: mysql
+  encoding: utf8
+  host: lepus.gonow.intranet
+  database: ice
+  username: ice
+  password: ice
+
 production:
   adapter: sqlite3
   database: db/production.sqlite3
