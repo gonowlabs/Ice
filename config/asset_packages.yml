@@ -5,7 +5,7 @@ javascripts:
   - jquery-ui
   - jrails
   - application
-  - report
+  - reports
 stylesheets:
 - base:
   - screen
